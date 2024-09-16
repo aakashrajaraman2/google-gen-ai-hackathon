@@ -168,17 +168,16 @@ Chat
     position: fixed;
     right: 1vh;
     top: 10%;
-    width: 300px;
-    height: 80vh;
-    max-height: 500px;
+    width: 60vh;
+    height: 70vh;
     z-index: 2;
-    overflow: hidden;
+    overflow-y: scroll;
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
     background: rgba(0, 0, 0, 0.5);
     border-radius: 20px;
     display: flex;
     justify-content: space-between;
-    flex-direction: column;
+
 }
 
 /*--------------------
@@ -234,7 +233,6 @@ Messages
 .messages {
     flex: 1 1 auto;
     color: rgba(255, 255, 255, 0.5);
-    overflow: hidden;
     position: relative;
     width: 100%;
 }
@@ -243,7 +241,7 @@ Messages
     position: absolute;
     top: 0;
     left: 0;
-    height: 101%;
+    height: 100%;
     width: 100%;
 }
 
@@ -261,27 +259,14 @@ Messages
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-.messages .message .timestamp {
-    position: absolute;
-    bottom: -15px;
-    font-size: 9px;
-    color: rgba(255, 255, 255, 0.3);
-}
 
-.messages .message::before {
-    content: "";
-    position: absolute;
-    bottom: -6px;
-    border-top: 6px solid rgba(0, 0, 0, 0.3);
-    left: 0;
-    border-right: 7px solid transparent;
-}
+
 
 .messages .message .avatar {
     position: absolute;
     z-index: 1;
     bottom: -15px;
-    left: -35px;
+    left: -30px;
     border-radius: 30px;
     width: 30px;
     height: 30px;
@@ -321,61 +306,21 @@ Messages
     transform: scale(0);
     transform-origin: 0 0;
     animation: bounce 500ms linear both;
+    margin-right: 4px;
 }
 
-.messages .message.loading::before {
-    content: "";
-    display: block;
-    width: 3px;
-    height: 3px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    z-index: 2;
-    margin-top: 4px;
-    animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
-    border: none;
-    animation-delay: 0.15s;
-}
-
-.messages .message.loading span {
-    display: block;
-    font-size: 0;
-    width: 20px;
-    height: 10px;
-    position: relative;
-}
-
-.messages .message.loading span::before,
-.messages .message.loading span::after {
-    content: "";
-    display: block;
-    width: 3px;
-    height: 3px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    z-index: 2;
-    margin-top: 4px;
-    animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
-}
-
-.messages .message.loading span::before {
-    margin-left: -7px;
-}
-
-.messages .message.loading span::after {
-    margin-left: 7px;
-    animation-delay: 0.3s;
-}
 
 /*--------------------
 Message Box
 --------------------*/
 .message-box {
     flex: 0 1 40px;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.3);
-    padding: 10px;
-    position: relative;
+    width: 26.2%;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    position: fixed;
+    bottom: 10%;
+    border-radius: 14px;
 }
 
 .message-box .message-input {
@@ -383,23 +328,23 @@ Message Box
     border: none;
     outline: none !important;
     resize: none;
-    color: rgba(255, 255, 255, 0.7);
+    position: relative;
+    color: rgba(255, 255, 255, 0.9);
     font-size: 11px;
     height: 17px;
     margin: 0;
     padding-right: 20px;
-    width: 265px;
+    width: 100%;
 }
 
 .message-box .message-submit {
     position: absolute;
     z-index: 1;
-    top: 9px;
     right: 10px;
     color: #fff;
     border: none;
     background: #248a52;
-    font-size: 10px;
+    font-size: 12px;
     text-transform: uppercase;
     line-height: 1;
     padding: 6px 10px;
@@ -410,40 +355,6 @@ Message Box
 
 .message-box .message-submit:hover {
     background: #1d7745;
-}
-
-/*--------------------
-Custom Srollbar
---------------------*/
-.mCSB_scrollTools {
-    margin: 1px -3px 1px 0;
-    opacity: 0;
-}
-
-.mCSB_inside > .mCSB_container {
-    margin-right: 0px;
-    padding: 0 10px;
-}
-
-.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
-    background: rgba(255, 255, 255, 0.3) !important;
-    width: 3px;
-}
-
-.mCSB_scrollTools .mCSB_buttonDown,
-.mCSB_scrollTools .mCSB_buttonUp {
-    display: none;
-}
-
-.mCSB_scrollTools .mCSB_draggerRail {
-    background: transparent;
-    width: 4px;
-    margin-right: 2px;
-}
-
-.mCSB_scrollTools.mCSB_scrollTools_vertical {
-    background: transparent !important;
-    width: 4px;
 }
 
 /*--------------------
