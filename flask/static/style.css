@@ -152,7 +152,7 @@
     height: 70vh;
     z-index: 10;
     overflow-y: scroll;
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
     background: rgba(0, 0, 0, 0.5);
     border-radius: 20px;
     justify-content: space-between;

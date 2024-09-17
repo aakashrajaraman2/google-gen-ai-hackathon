@@ -222,7 +222,8 @@ document.getElementById("chatbot-button").addEventListener("click", function(e) 
       messageDiv.appendChild(avatarFigure);
 
       //here, make a fetch call to flask submit route
-      /*fetch('/get_response', {
+     
+      fetch('/get_response', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -232,9 +233,9 @@ document.getElementById("chatbot-button").addEventListener("click", function(e) 
         .then(response => response.json())
         .then(data => {
           // Append the response from Flask to the message div
-          messageDiv.appendChild(document.createTextNode(data.message));
-        })*/
-        messageDiv.appendChild(document.createTextNode("Yo what's up"));
+          //messageDiv.appendChild(document.createTextNode(data.message));
+          messageDiv.innerHTML=data.message;
+        })
           // Append the message div to the messages content container
           document.querySelector(".messages-content").appendChild(messageDiv);
 

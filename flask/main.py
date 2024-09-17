@@ -26,10 +26,9 @@ def get_response():
     output = dict(crag_app.invoke({"keys": {"question": request_message}}))["keys"]["generation"].content
     
     output_json={
-        "message" : output
+        "message": output
     }
     return jsonify(output_json)
 
-
 if __name__ == "__main__":
-    app.run(host = "0.0.0.0",port=8085, debug=True)
+    app.run(host = "0.0.0.0",port=8085, debug=False, use_reloader=False)

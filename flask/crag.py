@@ -270,6 +270,7 @@ def generate(state):#node 3. also, end.
 
     Context: {context} 
 
+    Format your answer as a very short html script. The only tags you can use are <p>, <ol>, <li>.
     Answer:
     ''',
     input_variables=["question", "context"],)
