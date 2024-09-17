@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Insure </title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="" name="keywords" />
+  <meta content="" name="description" />
+
+  <!-- Favicon -->
+  <link href="img/favicon.ico" rel="icon" />
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Poppins:wght@600;700&display=swap"
+    rel="stylesheet" />
+
+
+
+  <!-- Customized Bootstrap Stylesheet -->
+  <link href="{{url_for('static', filename='bootstrap.min.css')}}" rel="stylesheet" />
+
+  <!-- Template Stylesheet -->
+  <link href="{{url_for('static', filename='style.css')}}" rel="stylesheet" />
+</head>
+
+<body>
+  
+
+  <!-- Navbar Start -->
+  <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5">
+    <a href="index.html" class="navbar-brand d-flex align-items-center">
+      <h1 class="m-0">
+        <img class="img-fluid me-3" src="{{url_for('static', filename='icon-02-primary.png')}}" alt="" />Insure
+      </h1>
+    </a>
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav mx-auto bg-light rounded pe-4 py-3 py-lg-0">
+      </div>
+    </div>
+    <a href="" class="btn btn-primary px-3 d-none d-lg-block" id="chatbot-button">Chatbot</a>
+  </nav>
+
+  <!-- Navbar End -->
+
+  <!-- Page Header Start -->
+  <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+      <h1 class="display-4 animated slideInDown mb-4">Peace of mind starts with the right protection</h1>
+      
+    </div>
+  </div>
+  <!-- Page Header End -->
+
+  <!-- Service Start -->
+  <div class="container-xxl py-5">
+    <div class="container">
+      <div class="text-center mx-auto" style="max-width: 500px">
+        <h1 class="display-6 mb-5">
+          We Provide professional Insurance Services
+        </h1>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+          <div class="service-item rounded h-100 p-5">
+            <div class="d-flex align-items-center ms-n5 mb-4">
+              <div class="service-icon flex-shrink-0 bg-primary rounded-end me-4">
+                <img class="img-fluid" src="{{url_for('static', filename='icon-10-light.png')}}" alt="" />
+              </div>
+              <h4 class="mb-0">Life Insurance</h4>
+            </div>
+            <p class="mb-4">
+              Plan for tomorrow with life insurance designed to give you peace of mind today
+            </p>
+            <a class="btn btn-light px-3" href="">Apply
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+          <div class="service-item rounded h-100 p-5">
+            <div class="d-flex align-items-center ms-n5 mb-4">
+              <div class="service-icon flex-shrink-0 bg-primary rounded-end me-4">
+                <img class="img-fluid" src="{{url_for('static', filename='icon-01-light.png')}}" alt="" />
+              </div>
+              <h4 class="mb-0">Health Insurance</h4>
+            </div>
+            <p class="mb-4">
+              Good health starts with the right coverage
+            </p>
+            <a class="btn btn-light px-3" href="">Apply</a>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+          <div class="service-item rounded h-100 p-5">
+            <div class="d-flex align-items-center ms-n5 mb-4">
+              <div class="service-icon flex-shrink-0 bg-primary rounded-end me-4">
+                <img class="img-fluid" src="{{url_for('static', filename='icon-05-light.png')}}" alt="" />
+              </div>
+              <h4 class="mb-0">Home Insurance</h4>
+            </div>
+            <p class="mb-4">
+              Shield your home from the unexpected—our home insurance has you covered every step of the way
+            </p>
+            <a class="btn btn-light px-3" href="">Apply</a>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+          <div class="service-item rounded h-100 p-5">
+            <div class="d-flex align-items-center ms-n5 mb-4">
+              <div class="service-icon flex-shrink-0 bg-primary rounded-end me-4">
+                <img class="img-fluid" src="{{url_for('static', filename='icon-08-light.png')}}" alt="" />
+              </div>
+              <h4 class="mb-0">Vehicle Insurance</h4>
+            </div>
+            <p class="mb-4">
+              Wherever your journey takes you, our coverage follows
+            </p>
+            <a class="btn btn-light px-3" href="">Apply</a>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+          <div class="service-item rounded h-100 p-5">
+            <div class="d-flex align-items-center ms-n5 mb-4">
+              <div class="service-icon flex-shrink-0 bg-primary rounded-end me-4">
+                <img class="img-fluid" src="{{url_for('static', filename='icon-07-light.png')}}" alt="" />
+              </div>
+
+              <h4 class="mb-0">Pet Insurance</h4>
+            </div>
+            <p class="mb-4">
+              Less worry, more wagging by give your pet the protection they deserve
+            </p>
+            <a class="btn btn-light px-3" href="">Apply</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat"  id="chat-div" style="display: none;">
+    <div class="chat-title">
+      <h1>Insurance Assistant</h1>
+      <figure class="avatar">
+        <img src="https://www.pikpng.com/pngl/m/9-95034_bot-eyes-angry-bot-png-clipart.png" />
+      </figure>
+    </div>
+    <div class="messages">
+      <div class="messages-content">
+        <div class="message new">
+          <figure class="avatar"><img src="https://www.pikpng.com/pngl/m/9-95034_bot-eyes-angry-bot-png-clipart.png"
+              alt="avatar" /></figure> Please send me any insurance related queries you have.
+        </div>
+      </div>
+    </div>
+    <div class="message-box">
+      <textarea type="text" class="message-input" placeholder="Type message..."></textarea>
+      <button type="submit" class="message-submit">Send</button>
+    </div>
+  </div>
+  <!-- Service End -->
+
+  
+  <script>
+
+document.getElementById("chatbot-button").addEventListener("click", function(e) {
+    e.preventDefault();
+    var div = document.getElementById("chat-div");
+    
+    // Check current display status and toggle it
+    if (div.style.display === "none") {
+        div.style.display = "flex"; // Show the div
+    } else {
+        div.style.display = "none";  // Hide the div
+    }
+});
+
+
+
+    document.querySelector(".message-submit").addEventListener("click", function () {
+      insertMessage();
+    });
+
+    function insertMessage() {
+      var msg = document.querySelector(".message-input").value.trim();
+      if (msg === "") {
+        return false;
+      }
+
+      var messageDiv = document.createElement("div");
+      messageDiv.className = "message message-personal";
+      messageDiv.textContent = msg;
+
+      document.querySelector(".messages-content").appendChild(messageDiv);
+      messageDiv.classList.add("new");
+
+      document.querySelector(".message-input").value = "";
+      fakeMessage(msg);
+    }
+
+    function fakeMessage(msg) {
+      var messageDiv = document.createElement("div");
+      messageDiv.className = "message new";
+
+      // Create the figure element for the avatar
+      var avatarFigure = document.createElement("figure");
+      avatarFigure.className = "avatar";
+
+      // Create the img element for the avatar image
+      var avatarImg = document.createElement("img");
+      avatarImg.src = "https://www.pikpng.com/pngl/m/9-95034_bot-eyes-angry-bot-png-clipart.png";
+      avatarImg.alt = "avatar";
+
+      // Append the img to the figure
+      avatarFigure.appendChild(avatarImg);
+
+      // Append the figure to the message div
+      messageDiv.appendChild(avatarFigure);
+
+      //here, make a fetch call to flask submit route
+      /*fetch('/get_response', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: msg })
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Append the response from Flask to the message div
+          messageDiv.appendChild(document.createTextNode(data.message));
+        })*/
+        messageDiv.appendChild(document.createTextNode("Yo what's up"));
+          // Append the message div to the messages content container
+          document.querySelector(".messages-content").appendChild(messageDiv);
+
+          // Optionally add the "new" class if needed
+          messageDiv.classList.add("new");
+        }
+
+  </script>
+
+
+
+
+</body>
+
+</html>

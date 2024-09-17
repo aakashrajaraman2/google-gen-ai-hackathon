@@ -14,7 +14,7 @@ load_dotenv()
 #default route
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    return render_template('1st_page.html')
+    return render_template('service.html')
 
 @app.route('/get_response', methods=['POST', 'GET'])
 def get_response():
@@ -24,7 +24,7 @@ def get_response():
     print(request_message)
     
     output = dict(crag_app.invoke({"keys": {"question": request_message}}))["keys"]["generation"].content
-
+    
     output_json={
         "message" : output
     }

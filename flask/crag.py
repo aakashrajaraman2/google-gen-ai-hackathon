@@ -222,16 +222,7 @@ def transform_query(state):#node 4
     return {"keys": {"documents": documents, "question": better_question}}
 
 def web_search(state):#node 6
-    """
-    Helper function to do Web search based on the re-phrased question using Tavily API.
-
-    Args:
-        state (dict): The current graph state
-
-    Returns:
-        state (dict): Updates documents key with appended web results
-    """
-
+   
     print("*" * 5, " WEB SEARCH ", "*" * 5)
     state_dict = state["keys"]
     question = state_dict["question"]
@@ -268,10 +259,11 @@ def generate(state):#node 3. also, end.
     # Prompt
     prompt = PromptTemplate(
     template='''
-    You are an assistant for insurance related question-answering tasks. 
+    You are an assistant for insurance related question-answering tasks. If the question is not insurance related, please respond with, "I can't answer that".
     Use the following pieces of insurance policies context to answer the question. 
     If you don't know the answer, just say that you don't know. 
     Give as much information as possible. Use a professional tone, and elaborate as much as you can.
+    Try to explain the information in a simple manner so even beginners can understand. This info will be used by people applying for insurance.
     Do not address the user by saying "in the context you gave me" etc. simply act as an encyclopedia, and answer the question.
 
     Question: {question} 
