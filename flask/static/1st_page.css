@@ -85,6 +85,8 @@ Chat Section
     margin-right: 20px;
     margin-top: auto;
     margin-bottom: auto;
+    font-family: 'Courier New', Courier, monospace;
+    color: #fff;
 }
 
 /* Keep rest of your chat styles unchanged */
@@ -204,6 +206,7 @@ Messages
     left: 0;
     height: 100%;
     width: 100%;
+    color: #fff;
 }
 
 .messages .message {

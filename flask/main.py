@@ -3,11 +3,11 @@ from dotenv import load_dotenv
 import os
 from flask import jsonify
 import time
-
+from crag import generate_langgraph
 
 app = Flask(__name__)
-
-
+crag_app = generate_langgraph()
+print("DONE WITH CRAG APP")
 
 load_dotenv()
 
@@ -23,8 +23,8 @@ def get_response():
     request_message = request_json['message']
     print(request_message)
     
-    
-    output = "Hello, nice to meet you"
+    output = dict(crag_app.invoke({"keys": {"question": request_message}}))["keys"]["generation"].content
+
     output_json={
         "message" : output
     }
