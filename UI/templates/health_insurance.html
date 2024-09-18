@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Insurance Claim Form</title>
+</head>
+<body>
+    <h2>Health Insurance Claim Form</h2>
+    <form action="/submit_claim" method="post">
+        <h3>Personal Information</h3>
+        <label for="policy_number">Policy Number:</label>
+        <input type="text" id="policy_number" name="policy_number" required>
+
+        <label for="policyholder_name">Policyholder Name:</label>
+        <input type="text" id="policyholder_name" name="policyholder_name" required>
+
+        <label for="date_of_birth">Date of Birth:</label>
+        <input type="date" id="date_of_birth" name="date_of_birth" required>
+
+        <label for="contact_number">Contact Number:</label>
+        <input type="tel" id="contact_number" name="contact_number" required>
+
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="address">Home Address:</label>
+        <textarea id="address" name="address" rows="3" required></textarea>
+
+        <h3>Claim Information</h3>
+        <label for="claim_amount">Claim Amount:</label>
+        <input type="number" id="claim_amount" name="claim_amount" required>
+
+        <label for="date_of_treatment">Date of Treatment:</label>
+        <input type="date" id="date_of_treatment" name="date_of_treatment" required>
+
+        <label for="hospital_name">Hospital Name:</label>
+        <input type="text" id="hospital_name" name="hospital_name" required>
+
+        <label for="hospital_address">Hospital Address:</label>
+        <textarea id="hospital_address" name="hospital_address" rows="3" required></textarea>
+
+        <label for="diagnosis">Diagnosis/Condition:</label>
+        <textarea id="diagnosis" name="diagnosis" rows="3" required></textarea>
+
+        <label for="treatment_description">Treatment Description:</label>
+        <textarea id="treatment_description" name="treatment_description" rows="3" required></textarea>
+
+        <label for="doctor_name">Doctor's Name:</label>
+        <input type="text" id="doctor_name" name="doctor_name" required>
+
+        <label for="doctor_contact">Doctor's Contact Number:</label>
+        <input type="tel" id="doctor_contact" name="doctor_contact" required>
+
+        <h3>Insurance Details</h3>
+        <label for="policy_start_date">Policy Start Date:</label>
+        <input type="date" id="policy_start_date" name="policy_start_date" required>
+
+        <label for="policy_end_date">Policy End Date:</label>
+        <input type="date" id="policy_end_date" name="policy_end_date" required>
+
+        <label for="has_previous_claims">Have you made previous claims?</label>
+        <select id="has_previous_claims" name="has_previous_claims" required>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+
+        <h3>Supporting Documents</h3>
+        <label for="supporting_documents">Upload Supporting Documents:</label>
+        <input type="file" id="supporting_documents" name="supporting_documents" multiple>
+
+        <button type="submit">Submit Claim</button>
+    </form>
+</body>
+</html>
