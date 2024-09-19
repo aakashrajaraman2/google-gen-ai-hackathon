@@ -26,7 +26,7 @@ class GraphState(TypedDict):
 
 
 
-embeddings_model = HuggingFaceEmbeddings(model_name="jinaai/jina-embeddings-v2-small-en")
+embeddings_model = HuggingFaceEmbeddings(model_name="jinaai/jina-embeddings-v2-small-en", model_kwargs={'trust_remote_code': True})
 
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="cred.json"

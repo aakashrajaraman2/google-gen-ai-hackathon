@@ -13,7 +13,7 @@ crag_app = generate_langgraph()
 print("DONE WITH CRAG APP")
 vertexai.init(project="vision-forge-414908", location="us-central1")
 model = GenerativeModel(model_name="gemini-1.5-flash-001",
-                             system_instruction="You have to have a conversation with a novice user about their insurance-related experience. This may be a hospitalization/car accident etc. Ask relevant questions one at a time, ask for necessary clarifications, etc. Once you are done with understanding their experience, the user will send you a list of necessary fields they require to fill out a form. You must return a json object with the values for these fields. Ensure that all your information is accurate, elaborate, and professional. This json object will be your final output.",
+                             system_instruction="You have to have a conversation with a novice user about their insurance-related experience. This may be a hospitalization/car accident etc. Ask relevant questions one at a time, ask for necessary clarifications, etc. Give them as clear and sound advice from the policy context you are given. Once you are done with understanding their experience, the user will send you a list of necessary fields they require to fill out a form. You must return a json object with the values for these fields. Ensure that all your information is accurate, elaborate, and professional. This json object will be your final output.",
                             
      )
 

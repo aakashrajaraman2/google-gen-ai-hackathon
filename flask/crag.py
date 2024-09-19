@@ -56,7 +56,7 @@ def prepare_docs():
 )
     doc_splits = text_splitter.split_documents(docs_list)
     return doc_splits
-
+    
 def lanceDBConnection(embed):
     db = lancedb.connect("/tmp/lancedb")
     table = db.create_table(
@@ -76,6 +76,29 @@ def lanceDBConnection(embed):
 
 retriever = lanceDBConnection(embeddings_model)
 
+def create_retrieval_prompt(state):
+    question = state["keys"]["question"]
+    prompt = PromptTemplate(
+        template=""" 
+            You are part of a Gen AI retrieval pipeline, and your task is to create an optimal retrieval query in natural language for info from an insruance database. You need to read the query, understand what kind of insurance is being referenced, and then create an optimal retrieval query from the database.
+            The retrieval query should be specific and relevant to the question. It should have all the keywords/topics that may be relevant to the query.
+            
+            Only provide the search query, no other text
+            
+            Here is the question: {question}
+            """, input_variables=["question"]
+    )
+    model = llm
+
+    # Prompt
+    chain = prompt | model | StrOutputParser()
+    retrieval_prompt = chain.invoke({"question": question})
+    print("***** RETRIEVAL PROMPT GENERATION *****")
+    print(retrieval_prompt)
+    return {"keys": {"prompt": retrieval_prompt, "question": question}}
+    
+    
+    
 def retrieve(state):#Node 1. will act as a tool
     """
     Helper function for retrieving documents. 
@@ -89,6 +112,7 @@ def retrieve(state):#Node 1. will act as a tool
     print("*" * 5, " RETRIEVE ", "*" * 5)
     state_dict = state["keys"]
     question = state_dict["question"]
+    retrieval_prompt = state_dict["prompt"]
     documents = retriever.invoke(question)
     
     return {"keys": {"documents": documents, "question": question}}#return the same state dict
@@ -183,16 +207,7 @@ def decide_to_generate(state):#node 5
         return "generate"
 
 def transform_query(state):#node 4
-    """
-    Helper function for transforming the query to produce a better question.
-
-    Args:
-        state (dict): The current graph state
-
-    Returns:
-        state (dict): Updates question key with a re-phrased question
-    """
-
+  
     print("*" * 5, "TRANSFORM QUERY", "*" * 5)
     state_dict = state["keys"]
     question = state_dict["question"]
@@ -292,6 +307,7 @@ def generate_langgraph():
     workflow = StateGraph(GraphState)#inherit empty state
 
     #nodes work by (node_name, function_of_node)
+    workflow.add_node("retrieve_prompt", create_retrieval_prompt)
     workflow.add_node("retrieve", retrieve)  # retrieve docs
     workflow.add_node("grade_documents", grade_documents)  # grade retrieved docs
     workflow.add_node("generate", generate)  # generate answers
@@ -299,7 +315,8 @@ def generate_langgraph():
     workflow.add_node("web_search", web_search)  # web search
 
     # Build graph
-    workflow.set_entry_point("retrieve")
+    workflow.set_entry_point("retrieve_prompt")
+    workflow.add_edge("retrieve_prompt", "retrieve")
     workflow.add_edge("retrieve", "grade_documents")
     workflow.add_conditional_edges(#conditional edges are based on a condition, which is a function that returns a boolean value
         "grade_documents",
