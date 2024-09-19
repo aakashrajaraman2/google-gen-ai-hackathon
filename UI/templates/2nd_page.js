@@ -1,28 +1,3 @@
-var $messages = $(".messages-content"),
-  d,
-  h,
-  m,
-  i = 0;
-
-$(window).on("load", function () {
-  setTimeout(function () {
-    fakeMessage();
-  }, 100);
-});
-
-function updateScrollbar() {
-  $messages.scrollTop($messages[0].scrollHeight);
-}
-
-function setDate() {
-  d = new Date();
-  if (m != d.getMinutes()) {
-    m = d.getMinutes();
-    $('<div class="timestamp">' + d.getHours() + ":" + m + "</div>").appendTo(
-      $(".message:last")
-    );
-  }
-}
 
 function insertMessage() {
   var msg = $(".message-input").val();
@@ -51,12 +26,6 @@ $(window).on("keydown", function (e) {
   }
 });
 
-var fakeMessages = [
-  "Hi there! How can I help you with insurance today?",
-  "Are you looking for a specific type of insurance?",
-  "Please provide your details, and I'll assist you with the best insurance options.",
-  "We offer various insurance policies. Which one are you interested in?"
-];
 
 function fakeMessage() {
   if ($(".message-input").val() !== "") {

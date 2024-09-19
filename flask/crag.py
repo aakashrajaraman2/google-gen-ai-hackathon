@@ -231,7 +231,7 @@ def web_search(state):#node 6
     tool = tavily_client.search(    query=question,
                                     search_depth="advanced",
                                     include_answer=True,
-                                    include_domains=["https://www.acko.com/car-insurance/irdai-rules/", "https://www.lexisnexis.in/blogs/insurance-law-in-india/."])
+                                    include_domains=[" https://en.wikipedia.org/wiki/Motor_Vehicle_Insurance_(India)", "https://en.wikipedia.org/wiki/Life_insurance","https://en.wikipedia.org/wiki/Health_insurance", "https://groww.in/blog/best-pet-insurance-policies-in-india", "https://en.wikipedia.org/wiki/Home_insurance"])
 
     docs = tool["answer"]
     #web_results = "\n".join([d["content"] for d in docs])
@@ -259,9 +259,9 @@ def generate(state):#node 3. also, end.
     # Prompt
     prompt = PromptTemplate(
     template='''
-    You are an assistant for insurance related question-answering tasks. If the question is not insurance related, please respond with, "I can't answer that".
+    You are an assistant for insurance related question-answering tasks. 
     Use the following pieces of insurance policies context to answer the question. 
-    If you don't know the answer, just say that you don't know. 
+    Only answer insurance related questions, decline others.
     Give as much information as possible. Use a professional tone, and elaborate as much as you can.
     Try to explain the information in a simple manner so even beginners can understand. This info will be used by people applying for insurance.
     Do not address the user by saying "in the context you gave me" etc. simply act as an encyclopedia, and answer the question.

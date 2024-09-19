@@ -3,13 +3,106 @@ from dotenv import load_dotenv
 import os
 from flask import jsonify
 import time
+from vertexai.generative_models import GenerativeModel, ChatSession, Content, Part
+import vertexai
 from crag import generate_langgraph
+from policy_helper import grade_documents
 
 app = Flask(__name__)
 crag_app = generate_langgraph()
 print("DONE WITH CRAG APP")
+vertexai.init(project="vision-forge-414908", location="us-central1")
+model = GenerativeModel(model_name="gemini-1.5-flash-001",
+                             system_instruction="You have to have a conversation with a novice user about their insurance-related experience. This may be a hospitalization/car accident etc. Ask relevant questions one at a time, ask for necessary clarifications, etc. Once you are done with understanding their experience, the user will send you a list of necessary fields they require to fill out a form. You must return a json object with the values for these fields. Ensure that all your information is accurate, elaborate, and professional. This json object will be your final output.",
+                            
+     )
 
 load_dotenv()
+session={
+    "ranjitsharma":{
+    "username": "ranjitsharma",#default user
+    }
+}
+
+#set up the history for the chat session to use.
+health_user_profile = {
+  "patient_profile": {
+    "personal_details": {
+      "name": "Ranjit Sharma",
+      "date_of_birth": "1985-06-15",
+      "gender": "Male",
+      "marital_status": "Married",
+      "children": 0,
+      "spouse_name": "Anita Sharma",
+      "contact_details": {
+        "phone": "+91-9876543210",
+        "email": "ranjit.sharma@example.com",
+        "address": {
+          "street": "15, MG Road",
+          "city": "Bengaluru",
+          "state": "Karnataka",
+          "postal_code": "560001",
+          "country": "India"
+        }
+      }
+    },
+    "insurance_details": {
+      "policy_number": "HSI123456789",
+      "policy_provider": "SBI Health Insurance",
+      "policy_path": "../docs/SBI.pdf",
+      "policy_start_date": "2020-01-01",
+      "policy_end_date": "2025-01-01",
+      "coverage_amount": 500000,
+      "premium_amount": 12000,
+      "premium_frequency": "Yearly"
+    },
+    "medical_history": {
+      "pre_existing_conditions": [],
+      "allergies": [],
+      "current_medications": [],
+      "past_treatments": []
+    },
+    "emergency_contact": {
+      "name": "Anita Sharma",
+      "relationship": "Spouse",
+      "phone": "+91-9876543211"
+    },
+    "claim_history": [
+      {
+        "claim_id": "CLAIM98765",
+        "claim_date": "2023-04-15",
+        "hospital_name": "Apollo Hospital",
+        "treatment": "Fracture Treatment",
+        "claim_amount": 50000,
+        "status": "Approved"
+      }
+    ]
+  }
+}
+
+default_chat_history = [
+    {
+        "role": "user",
+        "text": "This is my user profile:\n"+ str(health_user_profile)
+    },
+    {
+        "role": "model",
+        "text": "Okay, got it. Please ask your questions related to insurance."
+    },
+    
+]
+
+history = []
+
+for message in default_chat_history:
+    if message["role"] == "user":
+        history.append(
+            Content(role="user", parts=[Part.from_text(message["text"])])
+        )
+    else:
+        history.append(
+            Content(role="model", parts=[Part.from_text(f'{message["text"]}')])
+        )
 
 #default route
 @app.route('/', methods=['POST', 'GET'])
@@ -29,6 +122,33 @@ def get_response():
         "message": output
     }
     return jsonify(output_json)
+
+
+@app.route('/health_apply', methods=['POST', 'GET'])
+def health_apply():
+    return render_template('health_apply.html')
+
+
+
+@app.route("/health_question", methods=['POST', 'GET'])
+def health_question():
+    request_json = request.get_json()
+    try:
+        chat=session["ranjitsharma"]["chat"]
+    except Exception as e:
+        chat = ChatSession(model=model, history=history)
+        session["ranjitsharma"]["chat"]=chat
+    
+    docs = grade_documents({"query":request_json["message"]})['documents']
+    total_context = "\n".join(docs)
+    print(total_context)
+    final_prompt = "Relevant Information from database:\n"+total_context+"\n\n"+request_json["message"]
+    
+    
+    output=chat.send_message(final_prompt, stream=False)
+    session["ranjitsharma"]["chat"]=chat
+
+    return jsonify({"message":output.candidates[0].content.parts[0].text})
 
 if __name__ == "__main__":
     app.run(host = "0.0.0.0",port=8085, debug=False, use_reloader=False)
