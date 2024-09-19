@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Bot with Bio-data Form</title>
+  <link rel="stylesheet" href="health_vehicle_insurance.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="container">
+    <div class="form-container">
+      <form class="bio-form">
+        <h2>Vehicle-Insurance Form</h2>
+        <h3>Lease Plan Vehicle</h3>
+        <div class="form-group">
+            <label for="registration-number">Registration Number:</label>
+            <input type="text" id="registration-number" name="registration-number">
+        </div>
+        <div class="form-group">
+            <label for="department">Department:</label>
+            <input type="text" id="department" name="department">
+        </div>
+        <div class="form-group">
+            <label for="dept-contact-name">Dept. Contact Name:</label>
+            <input type="text" id="dept-contact-name" name="dept-contact-name">
+        </div>
+        <div class="form-group">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email">
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone">
+        </div>
+        <div class="form-group">
+            <label for="fax">Fax:</label>
+            <input type="tel" id="fax" name="fax">
+        </div>  
+        <div class="form-group">
+            <label for="make-and-model">Make and Model:</label>
+            <input type="text" id="make-and-model" name="make-and-model">
+        </div>
+        <div class="form-group">
+            <label for="year">Year:</label>
+            <input type="number" id="year" name="year">
+        </div>
+        <div class="form-group">
+            <label for="color">Color:</label>
+            <input type="text" id="color" name="color">
+        </div>
+        <div class="form-group">
+            <label for="odometer">Odometer:</label>
+            <input type="number" id="odometer" name="odometer">
+        </div>
+        <div class="form-group">
+            <label for="num-occupants">Number of Occupants:</label>
+            <input type="number" id="num-occupants" name="num-occupants">
+        </div>
+        <h3>Lease Vehicle Driver Details</h3>
+        <div class="form-group">
+            <label for="driver-name">Name of Driver:</label>
+            <input type="text" id="driver-name" name="driver-name">
+        </div>
+        <div class="form-group">
+            <label for="dept-section">Dept/Section:</label>
+            <input type="text" id="dept-section" name="dept-section">
+        </div>
+        <div class="form-group">  
+            <label for="driver-phone">Phone:</label>
+            <input type="tel" id="driver-phone" name="driver-phone">
+        </div>
+        <div class="form-group">
+            <label for="driver-mobile">Mobile:</label>
+            <input type="tel" id="driver-mobile" name="driver-mobile">
+        </div>
+        <div class="form-group">
+            <label for="driver-email-fax">E-mail/fax:</label>
+            <input type="text" id="driver-email-fax" name="driver-email-fax">
+        </div>
+        <div class="form-group">
+            <label for="years-driving">Years driving:</label>
+            <input type="number" id="years-driving" name="years-driving">
+        </div>
+        <div class="form-group">
+            <label for="license-no">License No:</label>
+            <input type="text" id="license-no" name="license-no">
+        </div>
+        <div class="form-group">
+            <label for="expiry-date">Expiry Date:</label>
+            <input type="date" id="expiry-date" name="expiry-date">
+        </div>
+        <div class="form-group">
+            <label for="nominated-driver">Nominated driver (Executive Lease):</label>
+            <input type="radio" id="nominated-driver" name="nominated-driver" value="yes"> Yes
+            <input type="radio" id="nominated-driver" name="nominated-driver" value="no"> No
+        </div>
+        <div class="form-group">
+            <label for="alcohol-drug">Alcohol/drug consumption prior accident</label>
+            <input type="radio" id="alcohol-drug-yes" name="alcohol-drug" value="yes"> Yes
+            <input type="radio" id="alcohol-drug-no" name="alcohol-drug" value="no"> No
+        </div>
+        <div class="form-group">
+            <label for="breath-blood-test">Breath/blood test:</label>
+            <input type="radio" id="breath-blood-test-yes" name="breath-blood-test" value="yes"> Yes
+            <input type="radio" id="breath-blood-test-no" name="breath-blood-test" value="no"> No
+        </div>
+        <h3>Accident Details</h3>
+        <div class="form-group">
+            <label for="accident-date">Date:</label>
+            <input type="date" id="accident-date" name="accident-date">
+        </div>
+        <div class="form-group">
+            <label for="accident-time">Time:</label>
+            <input type="time" id="accident-time" name="accident-time">
+            <input type="radio" id="AM" name="PM" value="yes"> AM
+            <input type="radio" id="PM" name="PM" value="no"> PM
+        </div>
+        <div class="form-group">  
+            <label for="accident-location">Street/Suburb:</label>
+            <input type="text" id="accident-location" name="accident-location">
+        </div>
+        <div class="form-group">
+            <label for="road-surface">Road surface:</label>
+            <select id="road-surface" name="road-surface">
+                <option value="wet">Wet</option>
+                <option value="dry">Dry</option>
+                <option value="other">Other</option>
+            </select>
+        </div>    
+        <div class="form-group">
+            <label for="lighting">Lighting:</label>
+            <select id="lighting" name="lighting">
+                <option value="good">Good</option>
+                <option value="poor">Poor</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="weather-conditions">Weather Condition</label>
+            <input type="text" id="weather-conditions" name="weather-conditions">
+        </div>
+        <div class="form-group">
+            <label for="towed">Was your vehicle towed?</label>
+            <input type="radio" id="towed-yes" name="towed" value="yes"> Yes
+            <input type="radio" id="towed-no" name="towed" value="no"> No
+        </div>
+        <div class="form-group">
+            <label for="weather-conditions">Weather Condition</label>
+            <input type="text" id="weather-conditions" name="weather-conditions">
+        </div>
+        <div class="form-group">
+            <label for="reported-to-police">Was this accident reported to the Police?</label>
+            <input type="radio" id="reported-to-police-yes" name="reported-to-police" value="yes"> Yes
+            <input type="radio" id="reported-to-police-no" name="reported-to-police" value="no"> No
+        </div>
+        <div class="form-group">
+            <label for="police-attend">Did Police attend?</label>
+            <input type="radio" id="police-attend-yes" name="police-attend" value="yes"> Yes
+            <input type="radio" id="police-attend-no" name="police-attend" value="no"> No
+        </div>
+        <div class="form-group">
+            <label for="police-station">Weather Condition</label>
+            <input type="text" id="police-station" name="police-station">
+        </div>
+        <div class="form-group">
+            <label for="officer-info">Name/Number of Officer:</label>
+            <input type="text" id="officer-info" name="officer-info">
+        </div>
+        <div class="form-group">
+            <label for="responsible-party">Who do you consider responsible for the accident?</label>
+            <input type="radio" id="responsible-driver" name="responsible-party" value="driver"> Unknown
+            <input type="radio" id="responsible-driver" name="responsible-party" value="driver"> Driver
+            <input type="radio" id="responsible-other-party" name="responsible-party" value="other-party"> Other Party
+            <input type="radio" id="responsible-both" name="responsible-party" value="both"> Both
+        </div>
+        <div class="form-group">
+            <label for="pending-action">Is Police action pending?</label>
+            <input type="radio" id="pending-action-yes" name="pending-action" value="yes"> Yes
+            <input type="radio" id="pending-action-no" name="pending-action" value="no"> No
+        </div>
+        <div class="form-group">
+            <label for="pending-action-details">If so, what and against whom?</label>
+            <input type="text" id="pending-action-details" name="pending-action-details">
+        </div>
+        <div class="form-group">
+            <label for="responsible-party">What do you consider responsible for the accident?</label>
+            <input type="radio" id="responsible-driver" name="responsible-party" value="driver"> Unknown
+            <input type="radio" id="responsible-driver" name="responsible-party" value="driver"> Driver
+            <input type="radio" id="responsible-other-party" name="responsible-party" value="other-party"> Other Party
+            <input type="radio" id="responsible-both" name="responsible-party" value="both"> Both
+        </div>
+        <div class="form-group">
+            <label for="reason">Why?</label>
+            <input type="text" id="reason" name="reason">
+        </div>
+        <h3>Injured Persons</h3>
+        <div class="form-group">
+            <label for="injured-persons">Were there any persons injured?</label>
+            <input type="radio" id="injured-yes" name="injured-persons" value="yes"> Yes
+            <input type="radio" id="injured-no" name="injured-persons" value="no"> No
+        </div>
+        <div class="form-group">
+            <label for="injured-persons">Were there any persons injured?</label>
+            <input type="radio" id="injured-yes" name="injured-persons" value="yes"> Yes
+            <input type="radio" id="injured-no" name="injured-persons" value="no"> No
+        </div>
+        <div class="form-group">
+            <label for="injured-in-which-vehicle">If injured, in which vehicle?</label>
+            <input type="radio" id="injured-in-which-vehicle-leaseplan" name="injured-in-which-vehicle" value="yes"> Lease Plan
+            <input type="radio" id="injured-in-which-vehicle-other" name="injured-in-which-vehicle" value="no"> Other
+            <input type="text" id="reason" name="reason">
+        </div>
+        <h3>Description of Accident</h3>
+        <div class="form-group">
+            <label for="description-of-accident">Description:</label>
+            <textarea id="description-of-accident" name="address" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <input type="submit" value="Submit">
+        </div>
+      </form>
+    </div>
+    <div class="chat">
+      <div class="chat-title">
+        <h1>Bot</h1>
+        <h2>call center</h2>
+        <figure class="avatar">
+          <img src="https://www.pikpng.com/pngl/m/9-95034_bot-eyes-angry-bot-png-clipart.png" alt="Bot Avatar" />
+        </figure>
+      </div>
+      <div class="messages">
+        <div class="messages-content"></div>
+      </div>
+      <div class="message-box">
+        <textarea type="text" class="message-input" placeholder="Type message..."></textarea>
+        <button type="submit" class="message-submit">Send</button>
+      </div>
+    </div>
+  </div>
+  <script src="health_vehicle_insurance.js"></script>
+</body>
+</html>
