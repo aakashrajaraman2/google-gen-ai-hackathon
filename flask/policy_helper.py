@@ -70,7 +70,7 @@ user_profile = {
     "insurance_details": {
       "policy_number": "HSI123456789",
       "policy_provider": "SBI Health Insurance",
-      "policy_path": "../docs/SBI.pdf",
+      "policy_path": "../docs/united india health insurance.pdf",
       "policy_start_date": "2020-01-01",
       "policy_end_date": "2025-01-01",
       "coverage_amount": 500000,
@@ -102,12 +102,6 @@ user_profile = {
 }
 
 
-paths =[
-    "../docs/90ade7e39d5e481f9aeb772a19a30234.pdf",
-    "../docs/SBI.pdf",
-    "../docs/English Motor Handbook.pdf",
-    "../docs/insurance_motor_car_motor_policy_booklet_241017_NMDMG10249_v3.pdf"
-]
 
 def prepare_docs():
     paths = [user_profile["patient_profile"]["insurance_details"]["policy_path"]]
@@ -168,6 +162,7 @@ def grade_documents(state_dict):#node 2
     """
 
     question = state_dict["query"]
+    profile = state_dict["profile"]
     op = retriever.invoke(question)
     documents = op
 

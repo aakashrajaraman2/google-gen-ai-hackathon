@@ -42,10 +42,9 @@ system_instruction="You will be given various tasks in the following prompts. Re
 
 
 paths =[
-    "../docs/90ade7e39d5e481f9aeb772a19a30234.pdf",
-    "../docs/English Health Handbook.pdf",
-    "../docs/English Motor Handbook.pdf",
-    "../docs/insurance_motor_car_motor_policy_booklet_241017_NMDMG10249_v3.pdf"
+    "../docs/auto.pdf",
+    "../docs/homeowners.pdf",
+    "../docs/united india health insurance.pdf",
 ]
 
 def prepare_docs():

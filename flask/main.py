@@ -57,7 +57,7 @@ health_user_profile = {
     "insurance_details": {
       "policy_number": "HSI123456789",
       "policy_provider": "SBI Health Insurance",
-      "policy_path": "../docs/SBI.pdf",
+      "policy_path": "../docs/united india health insurance.pdf",
       "policy_start_date": "2020-01-01",
       "policy_end_date": "2025-01-01",
       "coverage_amount": 500000,
@@ -146,7 +146,7 @@ def health_question():
       chat = ChatSession(model=model, history=history)
       session["ranjitsharma"]["chat"]=chat
     docs=[]
-    docs = grade_documents({"query":request_json["message"]})['documents']
+    docs = grade_documents({"query":request_json["message"], })['documents']
     total_context = "\n".join(docs)
     print(total_context)
     final_prompt = "Relevant Information from database:\n"+total_context+"\n\n"+request_json["message"]
