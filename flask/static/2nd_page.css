@@ -294,6 +294,29 @@
   .message-box .message-submit:hover {
     background: #1D7745;
   }
+
+  .heading-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .heading {
+    margin: 0;
+  }
+  
+  .right-button {
+    padding: 8px 16px;
+    background-color: #2a7561;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .right-button:hover {
+    background-color: #2a7561;
+  }
   
   @keyframes bounce {
     0% { transform: matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }

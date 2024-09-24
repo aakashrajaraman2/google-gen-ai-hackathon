@@ -18,13 +18,18 @@ body {
     z-index: 1; /* Ensure the text is visible above all elements */
 }
 
-.container {
-    display: flex;
-    justify-content: space-between;
-    height: 100%;
-    width: 100%;
-    z-index: 2; /* Ensure the container content is visible */
+
+
+
+
+h2 {
+    color: #2c3e50;
+    font-size: 28px;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #3498db;
 }
+
 
 /*--------------------
 
@@ -341,3 +346,4 @@ Keyframes
         transform: translateY(-8px);
     }
 }
+

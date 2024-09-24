@@ -29,7 +29,7 @@ embeddings_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="cred.json"
-os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
+#os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
 os.environ["TAVILY_API_KEY"] = os.getenv("TAVILY_KEY")
 tavily_client = TavilyClient(api_key=os.environ["TAVILY_API_KEY"])
 
@@ -246,7 +246,7 @@ def web_search(state):#node 6
     tool = tavily_client.search(    query=question,
                                     search_depth="advanced",
                                     include_answer=True,
-                                    include_domains=[" https://en.wikipedia.org/wiki/Motor_Vehicle_Insurance_(India)", "https://en.wikipedia.org/wiki/Life_insurance","https://en.wikipedia.org/wiki/Health_insurance", "https://groww.in/blog/best-pet-insurance-policies-in-india", "https://en.wikipedia.org/wiki/Home_insurance"])
+                                    include_domains=[" https://en.wikipedia.org/wiki/Motor_Vehicle_Insurance_(India)", "https://en.wikipedia.org/wiki/Life_insurance","https://en.wikipedia.org/wiki/Health_insurance", "https://www.beshak.org/insurance/health-insurance/articles/pet-dog-insurance-india/", "https://en.wikipedia.org/wiki/Home_insurance"])
 
     docs = tool["answer"]
     #web_results = "\n".join([d["content"] for d in docs])

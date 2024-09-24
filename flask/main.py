@@ -1,6 +1,7 @@
 from flask import render_template, redirect, request, url_for, flash, Flask, session
 from dotenv import load_dotenv
 import os
+import json
 from flask import jsonify
 import time
 from vertexai.generative_models import GenerativeModel, ChatSession, Content, Part
@@ -13,7 +14,13 @@ crag_app = generate_langgraph()
 print("DONE WITH CRAG APP")
 vertexai.init(project="vision-forge-414908", location="us-central1")
 model = GenerativeModel(model_name="gemini-1.5-flash-001",
-                             system_instruction="You have to have a conversation with a novice user about their insurance-related experience. This may be a hospitalization/car accident etc. Ask relevant questions one at a time, ask for necessary clarifications, etc. Give them as clear and sound advice from the policy context you are given. Once you are done with understanding their experience, the user will send you a list of necessary fields they require to fill out a form. You must return a json object with the values for these fields. Ensure that all your information is accurate, elaborate, and professional. This json object will be your final output.",
+                             system_instruction='''You have to have a conversation with a novice user about their insurance-related experience. 
+                             This may be a hospitalization/car accident etc. Ask relevant questions one at a time, ask for necessary clarifications, etc. 
+                             Give them as clear and sound advice from the policy context you are given. Format your answer as a very short html script. The only tags you can use are <p>, <ol>, <li>.
+                             Once you are done with understanding their experience, the user will send you a list of necessary fields they require to fill out a form.
+                             These fields include personal infromation, information about the injury, hospitalization and diagnosis, and information about the treatment. So, ensure to ask information along these lines.
+                             You must return a json object with the values for these fields. 
+                             Ensure that all your information is accurate, elaborate, and professional. This json object will be your final output.''',
                             
      )
 
@@ -21,6 +28,7 @@ load_dotenv()
 session={
     "ranjitsharma":{
     "username": "ranjitsharma",#default user
+    "chat": None
     }
 }
 
@@ -115,7 +123,7 @@ def get_response():
     request_json = request.get_json()
     request_message = request_json['message']
     print(request_message)
-    
+    output = 9
     output = dict(crag_app.invoke({"keys": {"question": request_message}}))["keys"]["generation"].content
     
     output_json={
@@ -126,29 +134,43 @@ def get_response():
 
 @app.route('/health_apply', methods=['POST', 'GET'])
 def health_apply():
-    return render_template('health_apply.html')
-
-
+    output_json = {}
+    return render_template('health_apply.html', output_json = output_json)
 
 @app.route("/health_question", methods=['POST', 'GET'])
 def health_question():
     request_json = request.get_json()
-    try:
-        chat=session["ranjitsharma"]["chat"]
-    except Exception as e:
-        chat = ChatSession(model=model, history=history)
-        session["ranjitsharma"]["chat"]=chat
-    
+    if session["ranjitsharma"]["chat"] != None:
+        chat = session["ranjitsharma"]["chat"]
+    else:
+      chat = ChatSession(model=model, history=history)
+      session["ranjitsharma"]["chat"]=chat
+    docs=[]
     docs = grade_documents({"query":request_json["message"]})['documents']
     total_context = "\n".join(docs)
     print(total_context)
     final_prompt = "Relevant Information from database:\n"+total_context+"\n\n"+request_json["message"]
     
-    
+  
     output=chat.send_message(final_prompt, stream=False)
     session["ranjitsharma"]["chat"]=chat
 
     return jsonify({"message":output.candidates[0].content.parts[0].text})
 
+
+@app.route("/autofill_health_form", methods=["POST", "GET"])
+def autofill_health_form():
+    input_names = request.form.to_dict().keys()
+    prompt = '''Generate a simple json with the following information. If you don't know the information have an empty string as the value for the key. Ensure that all the keys are accounted for in the output json. Only return the json, no other text. 
+    Refer to the user profile and the contents of the chat thus far to fill the information. Do not change any of the keys of the values I am giving you. they need to be exactly the same.
+    required fields:
+    '''+ str(input_names)+''' And here is the user profile again: \n'''+ str(health_user_profile)
+    print(prompt)
+    output_json = session["ranjitsharma"]["chat"].send_message(prompt, stream=False)
+    output_json = output_json.candidates[0].content.parts[0].text
+    output_json = output_json[output_json.find("{") : output_json.rfind("}") + 1]
+    print(output_json)
+    output_json = json.loads(output_json)
+    return render_template('health_apply.html',output_json=output_json)
 if __name__ == "__main__":
     app.run(host = "0.0.0.0",port=8085, debug=False, use_reloader=False)
