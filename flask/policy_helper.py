@@ -30,7 +30,6 @@ embeddings_model = HuggingFaceEmbeddings(model_name="jinaai/jina-embeddings-v2-s
 
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="cred.json"
-#os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
 os.environ["TAVILY_API_KEY"] = os.getenv("TAVILY_KEY")
 tavily_client = TavilyClient(api_key=os.environ["TAVILY_API_KEY"])
 

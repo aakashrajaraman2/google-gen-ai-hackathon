@@ -42,8 +42,8 @@ system_instruction="You will be given various tasks in the following prompts. Re
 
 
 paths =[
-    "../docs/auto.pdf",
-    "../docs/homeowners.pdf",
+    "../docs/car insurance.pdf",
+    "../docs/home insurance.pdf",
     "../docs/united india health insurance.pdf",
 ]
 
@@ -162,7 +162,7 @@ def grade_documents(state):#node 2
         grade2 = score[0]
         if "yes" in grade2 or "Yes" in grade2:
             print("*" * 5, " RATED DOCUMENT: RELEVANT", "*" * 5)
-            filtered_docs.append(d)
+            filtered_docs.append(d.page_content)
         else:
             print("*" * 5, " RATED DOCUMENT: NOT RELEVANT", "*" * 5)
             continue
@@ -250,7 +250,7 @@ def web_search(state):#node 6
     docs = tool["answer"]
     #web_results = "\n".join([d["content"] for d in docs])
     #print(web_results)
-    web_results = Document(page_content=docs)
+    web_results = docs
     documents.append(web_results)
 
     return {"keys": {"documents": documents, "question": question}}
@@ -276,6 +276,9 @@ def generate(state):#node 3. also, end.
     You are an assistant for insurance related question-answering tasks. 
     Use the following pieces of insurance policies context to answer the question. 
     Only answer insurance related questions, decline others.
+    
+    Consider all of the context provided to generate your answer. Make sure you answer is elaborate and well-reasoned based on context.
+    
     Give as much information as possible. Use a professional tone, and elaborate as much as you can.
     Try to explain the information in a simple manner so even beginners can understand. This info will be used by people applying for insurance.
     Do not address the user by saying "in the context you gave me" etc. simply act as an encyclopedia, and answer the question.
@@ -296,6 +299,7 @@ def generate(state):#node 3. also, end.
     rag_chain = prompt | llm 
 
     # Run generation
+    print(documents)
     generation = rag_chain.invoke({"context": documents, "question": question})
     return {
         "keys": {"documents": documents, "question": question, "generation": generation}
