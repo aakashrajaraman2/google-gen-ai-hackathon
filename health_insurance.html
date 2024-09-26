@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Bot with Bio-data Form</title>
+  <link rel="stylesheet" href="insurance.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="container">
+    <div class="form-container">
+      <form class="bio-form">
+        <div class="heading-container">
+            <h2>Health-Insurance Form</h2>
+            <button class="right-button">Auto fill</button>
+        </div>
+        <div class="form-group">
+          <label for="policy_number">Policy Number:</label>
+          <input type="text" id="policy_number" name="policy_number" required>
+        </div>
+        <div class="form-group">
+          <label for="policyholder_name">Policyholder Name:</label>
+          <input type="text" id="policyholder_name" name="policyholder_name" required>
+        </div>
+        <div class="form-group">
+          <label for="dob">Date of Birth:</label>
+          <input type="date" id="dob" name="dob" required>
+        </div>
+        <div class="form-group">
+          <label for="contact_number">Contact Number:</label>
+          <input type="tel" id="contact_number" name="contact_number" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address:</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="address">Home Address:</label>
+          <textarea id="address" name="address" rows="3" required></textarea>
+        </div>  
+        <h3>Claim Information</h3>
+        <div class="form-group">
+          <label for="claim_amount">Claim Amount:</label>
+          <input type="number" id="claim_amount" name="claim_amount" required>
+        </div>
+        <div class="form-group">
+          <label for="date_of_treatment">Date of Treatment:</label>
+          <input type="date" id="date_of_treatment" name="date_of_treatment" required>
+        </div>
+        <div class="form-group">  
+          <label for="hospital_name">Hospital Name:</label>
+          <input type="text" id="hospital_name" name="hospital_name" required>
+        </div>
+        <div class="form-group">
+          <label for="hospital_address">Hospital Address:</label>
+          <textarea id="hospital_address" name="hospital_address" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="diagnosis">Diagnosis/Condition:</label>
+          <textarea id="diagnosis" name="diagnosis" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="treatment_description">Treatment Description:</label>
+          <textarea id="treatment_description" name="treatment_description" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="doctor_name">Doctor's Name:</label>
+          <input type="text" id="doctor_name" name="doctor_name" required>
+        </div>
+        <div class="form-group">
+          <label for="doctor_contact">Doctor's Contact Number:</label>
+          <input type="tel" id="doctor_contact" name="doctor_contact" required>
+        </div>
+        <h3>Insurance Details</h3>
+        <div class="form-group">
+          <label for="policy_start_date">Policy Start Date:</label>
+          <input type="date" id="policy_start_date" name="policy_start_date" required>
+        </div>
+        <div class="form-group">
+          <label for="policy_end_date">Policy End Date:</label>
+          <input type="date" id="policy_end_date" name="policy_end_date" required>
+        </div>
+        <div class="form-group">  
+          <label for="has_previous_claims">Have you made previous claims?</label>
+          <select id="has_previous_claims" name="has_previous_claims" required>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+          </select>
+        </div>
+        <h3>Supporting Documents</h3>
+        <div class="form-group">
+          <label for="supporting_documents">Upload Supporting Documents:</label>
+          <input type="file" id="supporting_documents" name="supporting_documents" multiple>
+        </div>
+        <div class="form-group">
+          <input type="submit" value="Submit">
+        </div>
+      </form>
+    </div>
+    <div class="chat">
+      <div class="chat-title">
+        <h1>Bot</h1>
+        <h2>call center</h2>
+        <figure class="avatar">
+          <img src="https://www.pikpng.com/pngl/m/9-95034_bot-eyes-angry-bot-png-clipart.png" alt="Bot Avatar" />
+        </figure>
+      </div>
+      <div class="messages">
+        <div class="messages-content"></div>
+      </div>
+      <div class="message-box">
+        <textarea type="text" class="message-input" placeholder="Type message..."></textarea>
+        <button type="submit" class="message-submit">Send</button>
+      </div>
+    </div>
+  </div>
+  <script src="insurance.js"></script>
+</body>
+</html>
