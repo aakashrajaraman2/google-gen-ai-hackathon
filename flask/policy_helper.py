@@ -66,10 +66,20 @@ user_profile = {
         }
       }
     },
-    "insurance_details": {
+    "health_insurance_details": {
       "policy_number": "HSI123456789",
       "policy_provider": "SBI Health Insurance",
       "policy_path": "../docs/united india health insurance.pdf",
+      "policy_start_date": "2020-01-01",
+      "policy_end_date": "2025-01-01",
+      "coverage_amount": 500000,
+      "premium_amount": 12000,
+      "premium_frequency": "Yearly"
+    },
+    "vehicle_insurance_details": {
+      "policy_number": "SBI5682100173",
+      "policy_provider": "SBI Private Car Insurance",
+      "policy_path": "../docs/car insurance.pdf",
       "policy_start_date": "2020-01-01",
       "policy_end_date": "2025-01-01",
       "coverage_amount": 500000,
@@ -102,8 +112,11 @@ user_profile = {
 
 
 
-def prepare_docs():
-    paths = [user_profile["patient_profile"]["insurance_details"]["policy_path"]]
+def prepare_docs(request_type):
+    if request_type=="health":
+      paths = [user_profile["patient_profile"]["health_insurance_details"]["policy_path"]]
+    else:
+      paths = [user_profile["patient_profile"]["vehicle_insurance_details"]["policy_path"]]
     docs = [PyPDFLoader(url).load() for url in paths]
     docs_list = [item for sublist in docs for item in sublist]
     text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
@@ -113,7 +126,7 @@ def prepare_docs():
     return doc_splits
 
 
-def lanceDBConnection(embed):
+def lanceDBConnection(request_type, embed=embeddings_model):
     db = lancedb.connect("/tmp/lancedb")
     table = db.create_table(
         "crag_demo",
@@ -122,7 +135,7 @@ def lanceDBConnection(embed):
     )
     
     vectorstore = LanceDB.from_documents(
-        documents=prepare_docs(),
+        documents=prepare_docs(request_type),
         embedding=embeddings_model,
         connection=table,
     )
@@ -130,26 +143,9 @@ def lanceDBConnection(embed):
 
     return retriever
 
-retriever = lanceDBConnection(embeddings_model)
+#retriever = lanceDBConnection(embeddings_model)
 
-def retrieve(state_dict):#Node 1. will act as a tool
-    """
-    Helper function for retrieving documents. 
-
-    Args:
-        state (dict): The current graph state
-
-    Returns:
-        state (dict): New key added to state, documents, that contains retrieved documents
-    """
-    print("*" * 5, " RETRIEVE ", "*" * 5)
-    question = state_dict["question"]
-    documents = retriever.invoke(question)
-    
-    return {"keys": {"documents": documents, "question": question}}#return the same state dict
-
-
-def grade_documents(state_dict):#node 2
+def grade_documents(retriever, state_dict):#node 2
     """
     Determines whether the retrieved documents are relevant to the question.
 
@@ -161,7 +157,7 @@ def grade_documents(state_dict):#node 2
     """
 
     question = state_dict["query"]
-    profile = state_dict["profile"]
+    type=state_dict["type"]
     op = retriever.invoke(question)
     documents = op
 

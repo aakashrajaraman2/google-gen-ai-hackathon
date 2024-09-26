@@ -8,7 +8,8 @@ from vertexai.generative_models import GenerativeModel, ChatSession, Content, Pa
 import vertexai
 from crag import generate_langgraph
 from policy_helper import grade_documents
-
+import policy_helper
+print("Starting")
 app = Flask(__name__)
 crag_app = generate_langgraph()
 print("DONE WITH CRAG APP")
@@ -18,7 +19,7 @@ model = GenerativeModel(model_name="gemini-1.5-flash-001",
                              This may be a hospitalization/car accident etc. Ask relevant questions one at a time, ask for necessary clarifications, etc. 
                              Give them as clear and sound advice from the policy context you are given. Format your answer as a very short html script. The only tags you can use are <p>, <ol>, <li>.
                              Once you are done with understanding their experience, the user will send you a list of necessary fields they require to fill out a form.
-                             These fields include personal infromation, information about the injury, hospitalization and diagnosis, and information about the treatment. So, ensure to ask information along these lines.
+                             These fields include personal infromation, information about the incident: hospitalization, car accidents, etc. So, ensure to ask information along these lines.
                              You must return a json object with the values for these fields. 
                              Ensure that all your information is accurate, elaborate, and professional. This json object will be your final output.''',
                             
@@ -28,7 +29,8 @@ load_dotenv()
 session={
     "ranjitsharma":{
     "username": "ranjitsharma",#default user
-    "chat": None
+    "chat": None,
+    "request": ""
     }
 }
 
@@ -136,17 +138,26 @@ def get_response():
 def health_apply():
     output_json = {}
     return render_template('health_apply.html', output_json = output_json)
+  
+@app.route('/vehicle_apply', methods=['POST', 'GET'])
+def vehicle_apply():
+    output_json = {}
+    return render_template('vehicle_apply.html', output_json = output_json)
 
 @app.route("/health_question", methods=['POST', 'GET'])
 def health_question():
     request_json = request.get_json()
+    request_type = request_json["type"]
     if session["ranjitsharma"]["chat"] != None:
         chat = session["ranjitsharma"]["chat"]
-    else:
+    elif request_type!=session["ranjitsharma"]["request"]:#new chat, or new requet
       chat = ChatSession(model=model, history=history)
       session["ranjitsharma"]["chat"]=chat
+      session["ranjitsharma"]["request"] = request_type
+      retriever = policy_helper.lanceDBConnection(request_type=request_type)
+      session["ranjitsharma"]["retriever"]=retriever
     docs=[]
-    docs = grade_documents({"query":request_json["message"], })['documents']
+    docs = grade_documents(retriever = session["ranjitsharma"]["retriever"],state_dict={"query":request_json["message"], "type": request_json["type"] })['documents']
     total_context = "\n".join(docs)
     print(total_context)
     final_prompt = "Relevant Information from database:\n"+total_context+"\n\n"+request_json["message"]

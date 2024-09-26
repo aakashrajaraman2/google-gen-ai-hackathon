@@ -110,7 +110,7 @@
         <div class="messages-content">
           <div class="message new">
             <figure class="avatar"><img src="https://www.pikpng.com/pngl/m/9-95034_bot-eyes-angry-bot-png-clipart.png"
-                alt="avatar" /></figure> Please send me any insurance related queries you have. You can also press Autofill to autofill your claim form once you have provided me enough information, and are satisfied with your conversation.
+                alt="avatar" /></figure> Please send me any insurance related queries you have. You can also press Autofill to autofill your claim form once you have provided me enough information, and are satisfied with your conversation. Please note that my responses may take 10-15 seconds initially.
           </div>
         </div>
       </div>
@@ -171,7 +171,7 @@
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: msg })
+        body: JSON.stringify({ message: msg, type: "health" })
       })
         .then(response => response.json())
         .then(data => {

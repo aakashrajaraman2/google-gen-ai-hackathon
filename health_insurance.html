@@ -116,6 +116,70 @@
       </div>
     </div>
   </div>
-  <script src="insurance.js"></script>
+
+  <script>
+    document.querySelector(".message-submit").addEventListener("click", function () {
+      insertMessage();
+    });
+
+    function insertMessage() {
+      var msg = document.querySelector(".message-input").value.trim();
+      if (msg === "") {
+        return false;
+      }
+
+      var messageDiv = document.createElement("div");
+      messageDiv.className = "message message-personal";
+      messageDiv.textContent = msg;
+
+      document.querySelector(".messages-content").appendChild(messageDiv);
+      messageDiv.classList.add("new");
+
+      document.querySelector(".message-input").value = "";
+      fakeMessage(msg);
+    }
+
+    function fakeMessage(msg) {
+      var messageDiv = document.createElement("div");
+      messageDiv.className = "message new";
+
+      // Create the figure element for the avatar
+      var avatarFigure = document.createElement("figure");
+      avatarFigure.className = "avatar";
+
+      // Create the img element for the avatar image
+      var avatarImg = document.createElement("img");
+      avatarImg.src = "https://www.pikpng.com/pngl/m/9-95034_bot-eyes-angry-bot-png-clipart.png";
+      avatarImg.alt = "avatar";
+
+      // Append the img to the figure
+      avatarFigure.appendChild(avatarImg);
+
+      // Append the figure to the message div
+      messageDiv.appendChild(avatarFigure);
+
+      //here, make a fetch call to flask submit route
+     
+      fetch('/health_question', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: msg, type: "vehicle" })
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Append the response from Flask to the message div
+          //messageDiv.appendChild(document.createTextNode(data.message));
+          messageDiv.innerHTML=data.message;
+        })
+          // Append the message div to the messages content container
+          document.querySelector(".messages-content").appendChild(messageDiv);
+
+          // Optionally add the "new" class if needed
+          messageDiv.classList.add("new");
+        }
+
+</script>
 </body>
 </html>
