@@ -67,7 +67,7 @@ def lanceDBConnection(embed):
     vectorstore = LanceDB.from_documents(
         documents=prepare_docs(),
         embedding=embeddings_model,
-        connection=table,
+        connection=db,
     )
     retriever = vectorstore.as_retriever()
 

@@ -21,7 +21,8 @@ model = GenerativeModel(model_name="gemini-1.5-flash-001",
                              Once you are done with understanding their experience, the user will send you a list of necessary fields they require to fill out a form.
                              These fields include personal infromation, information about the incident: hospitalization, car accidents, etc. So, ensure to ask information along these lines.
                              You must return a json object with the values for these fields. 
-                             Ensure that all your information is accurate, elaborate, and professional. This json object will be your final output.''',
+                             Ensure that all your information is accurate, elaborate, and professional. 
+                             Until the user asks for the json, don't provide it. Ask as many important questions required to fill out a insurance claim form.''',
                             
      )
 
@@ -159,7 +160,7 @@ def health_question():
     docs=[]
     docs = grade_documents(retriever = session["ranjitsharma"]["retriever"],state_dict={"query":request_json["message"], "type": request_json["type"] })['documents']
     total_context = "\n".join(docs)
-    print(total_context)
+    #print(total_context)
     final_prompt = "Relevant Information from database:\n"+total_context+"\n\n"+request_json["message"]
     
   
@@ -171,7 +172,9 @@ def health_question():
 
 @app.route("/autofill_health_form", methods=["POST", "GET"])
 def autofill_health_form():
+    
     input_names = request.form.to_dict().keys()
+    request_type = request.form["request_type"]
     prompt = '''Generate a simple json with the following information. If you don't know the information have an empty string as the value for the key. Ensure that all the keys are accounted for in the output json. Only return the json, no other text. 
     Refer to the user profile and the contents of the chat thus far to fill the information. Do not change any of the keys of the values I am giving you. they need to be exactly the same.
     required fields:
@@ -182,6 +185,17 @@ def autofill_health_form():
     output_json = output_json[output_json.find("{") : output_json.rfind("}") + 1]
     print(output_json)
     output_json = json.loads(output_json)
+    
+    
+    if request_type == "vehicle":
+        return render_template('vehicle_apply.html', output_json=output_json)
+      
+    session["ranjitsharma"]["chat"] = None 
     return render_template('health_apply.html',output_json=output_json)
+  
+
+
+  
+  
 if __name__ == "__main__":
     app.run(host = "0.0.0.0",port=8085, debug=False, use_reloader=False)

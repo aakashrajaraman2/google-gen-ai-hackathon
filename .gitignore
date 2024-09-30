@@ -1,3 +1,4 @@
 .env
 cred.json
 cred2.json
+flask/gen-ai-env

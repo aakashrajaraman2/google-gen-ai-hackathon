@@ -17,6 +17,8 @@
           <button class="right-button" type="submit">Auto fill</button>
         </div>
         <div class="form-group">
+          <input type="hidden" name="request_type" value="health">
+
           <label for="policy_number">Policy Number:</label>
           <input type="text" id="policy_number" name="policy_number" value="{{output_json['policy_number'] if output_json else ''}}" >
         </div>
