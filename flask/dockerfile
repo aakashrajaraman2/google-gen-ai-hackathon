@@ -1,0 +1,9 @@
+FROM python:3.11
+
+WORKDIR /flask
+
+COPY . .
+
+RUN pip3 install -r requirements.txt
+
+CMD ["gunicorn", "app:app", "--preload", "--workers=1", "--threads=4", "--bind=0.0.0.0:8085"]
