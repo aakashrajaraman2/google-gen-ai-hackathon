@@ -172,18 +172,24 @@ def health_question():
 
 @app.route("/autofill_health_form", methods=["POST", "GET"])
 def autofill_health_form():
-    if "final-submit" in request.form.get("final-submit"):
-      if "health" in request.form.get("final-submit"):
-        return render_template('health_apply.html', message='Your claim form has been submitted!')
-      else: 
-        return render_template('vehicle_apply.html', message='Your claim form has been submitted!')
+  
+    
+    print(request.form.to_dict())
+    
+      
+    if "Submit Claim Form"== request.form.to_dict()["final-submit"]:
+      print("HEREEEEE")
+      return render_template('health_apply.html', message='Your claim form has been submitted! You can submit a new form.')
+    elif "Submit Vehicle Claim Form" == request.form.to_dict()["final-submit"]: 
+      return render_template('vehicle_apply.html', message='Your claim form has been submitted! You can submit a new form.')
+  
     input_names = request.form.to_dict().keys()
     request_type = request.form["request_type"]
     prompt = '''Generate a simple json with the following information. If you don't know the information have an empty string as the value for the key. Ensure that all the keys are accounted for in the output json. Only return the json, no other text. 
     Refer to the user profile and the contents of the chat thus far to fill the information. Do not change any of the keys of the values I am giving you. they need to be exactly the same.
     required fields:
     '''+ str(input_names)+''' And here is the user profile again: \n'''+ str(health_user_profile)
-    print(prompt)
+    #print(prompt)
     output_json = session["ranjitsharma"]["chat"].send_message(prompt, stream=False)
     output_json = output_json.candidates[0].content.parts[0].text
     output_json = output_json[output_json.find("{") : output_json.rfind("}") + 1]

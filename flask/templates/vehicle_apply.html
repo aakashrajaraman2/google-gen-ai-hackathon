@@ -8,7 +8,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<div class = "message">{{message if message else ""}}</div>
+<div class = "message-div"><h3>{{message if message else ""}}</h3></div>
   <div class="bg"></div>
   <div class="container">
     <div class="form-container">
@@ -94,12 +94,14 @@
           <div class="form-group">
             <label for="alcohol-drug">Alcohol/drug consumption prior accident</label>
             <select id="alcohol-drug" name="alcohol-drug" value="{{output_json['alcohol-drug'] if output_json else ''}}" >
+              {% if output_json %}
               {% if output_json["alcohol-drug"] == "yes" %}
                 <option value="yes" selected>Yes</option>
               <option value="no">No</option>
               {% elif output_json["alcohol-drug"] =="no"%}
               <option value="yes" >Yes</option>
               <option value="no" selected>No</option>
+                {% endif %}
                 {% endif %}
             </select>
           </div>
@@ -135,6 +137,7 @@
           <div class="form-group">
             <label for="towed">Was your vehicle towed?</label>
             <select id="towed" name="towed"  >
+              {% if output_json %}
                 {% if output_json["towed"] == "yes" %}
                 <option value="yes" selected>Yes</option>
               <option value="no">No</option>
@@ -142,11 +145,13 @@
               <option value="yes" >Yes</option>
               <option value="no" selected>No</option>
                 {% endif %}
+                {% endif %}
             </select>
           </div>
           <div class="form-group">
             <label for="reported-to-police">Was this accident reported to the Police?</label>
             <select id="reported-to-police" name="reported-to-police"  >
+              {% if output_json %}
                 {% if output_json["reported-to-police"] == "yes" %}
                 <option value="yes" selected>Yes</option>
               <option value="no">No</option>
@@ -154,17 +159,21 @@
               <option value="yes" >Yes</option>
               <option value="no" selected>No</option>
                 {% endif %}
+                {% endif %}
             </select>
           </div>
           <div class="form-group">
             <label for="police-attend">Did Police attend?</label>
             <select id="police-attend" name="police-attend" value="{{output_json['police-attend'] if output_json else ''}}" >
-                {% if output_json["police-attend"] == "yes" %}
+              {% if output_json %}  
+              
+              {% if output_json["police-attend"] == "yes" %}
                 <option value="yes" selected>Yes</option>
               <option value="no">No</option>
               {% elif output_json["police-attend"] =="no"%}
               <option value="yes" >Yes</option>
               <option value="no" selected>No</option>
+                {% endif %}
                 {% endif %}
             </select>
           </div>
@@ -185,12 +194,14 @@
           <div class="form-group">
             <label for="injured-persons">Were there any persons injured?</label>
             <select id="injured-persons" name="injured-persons" value="{{output_json['injured-persons'] if output_json else ''}}" >
-                {% if output_json["injured-persons"] == "yes" %}
+               {% if output_json %} 
+              {% if output_json["injured-persons"] == "yes" %}
                 <option value="yes" selected>Yes</option>
               <option value="no">No</option>
               {% elif output_json["injured-persons"] =="no"%}
               <option value="yes" >Yes</option>
               <option value="no" selected>No</option>
+                {% endif %}
                 {% endif %}
             </select>    
           </div>
@@ -201,7 +212,7 @@
             <input type="text" id="description-of-accident" name="description-of-accident" rows="3" value="{{output_json['description-of-accident'] if output_json else ''}}" ></textarea>
           </div>
           <div class="form-group">
-            <input type="submit" class = "final-submit" name="final-submit" value="vehicle-final-submit">
+            <input type="submit" class = "final-submit" name="final-submit" value="Submit Vehicle Claim Form">
           </div>
         </form>
       </div>

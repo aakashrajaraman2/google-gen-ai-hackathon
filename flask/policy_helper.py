@@ -69,7 +69,7 @@ user_profile = {
     "health_insurance_details": {
       "policy_number": "HSI123456789",
       "policy_provider": "SBI Health Insurance",
-      "policy_path": "../docs/united india health insurance.pdf",
+      "policy_path": "docs/united india health insurance.pdf",
       "policy_start_date": "2020-01-01",
       "policy_end_date": "2025-01-01",
       "coverage_amount": 500000,

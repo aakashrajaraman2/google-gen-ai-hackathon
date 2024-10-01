@@ -8,14 +8,14 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-  <div class = "message">{{message if message else ""}}</div>
+  <div class = "message-div"><h3>{{message if message else ""}}</h3></div>
   <div class="bg"></div>
   <div class="container">
     <div class="form-container">
       <form class="bio-form" action="{{url_for('autofill_health_form')}}" method="POST">
         <div class="heading-container">
           <h2>SBI Insurance Claim Form</h2>
-          <button class="right-button" type="submit">Auto fill</button>
+          <button class="right-button" name="final-submit" value="autofill" type="submit">Autofill</button>
         </div>
         <div class="form-group">
           <input type="hidden" name="request_type" value="health">
@@ -25,56 +25,56 @@
         </div>
         <div class="form-group">
           <label for="policyholder_name">Policyholder Name:</label>
-          <input type="text" id="policy_holder_name" name="policy_holder_name" value="{{output_json['policy_holder_name']}}">
+          <input type="text" id="policy_holder_name" name="policy_holder_name" value="{{output_json['policy_holder_name'] if output_json else ''}}">
         </div>
         <div class="form-group">
           <label for="dob">Date of Birth:</label>
-          <input type="date" id="dob" name="dob" value="{{output_json['dob'] | default('')}}" >
+          <input type="date" id="dob" name="dob" value="{{output_json['dob'] if output_json else ''}}" >
         </div>
         <div class="form-group">
           <label for="contact_number">Contact Number:</label>
-          <input type="text" id="contact_number" name="contact_number" value="{{output_json['contact_number'] | default('')}}" >
+          <input type="text" id="contact_number" name="contact_number" value="{{output_json['contact_number'] if output_json else ''}}" >
         </div>
         <div class="form-group">
           <label for="email">Email Address:</label>
-          <input type="email" id="email" name="email" value="{{output_json['email'] | default('')}}" >
+          <input type="email" id="email" name="email" value="{{output_json['email'] if output_json else ''}}" >
         </div>
         <div class="form-group">
           <label for="address">Home Address:</label>
-          <input type="text" id="address" name="address"  value="{{output_json['address'] | default('')}}" >
+          <input type="text" id="address" name="address"  value="{{output_json['address'] if output_json else ''}}" >
         </div>  
         <h3>Claim Information</h3>
         <div class="form-group">
           <label for="claim_amount">Claim Amount:</label>
-          <input type="number" id="claim_amount" name="claim_amount" value="{{output_json['claim_amount'] | default('')}}" >
+          <input type="number" id="claim_amount" name="claim_amount" value="{{output_json['claim_amount'] if output_json else ''}}" >
         </div>
         <div class="form-group">
           <label for="date_of_treatment">Date of Treatment:</label>
-          <input type="date" id="date_of_treatment" name="date_of_treatment" value="{{output_json['date_of_treatment'] | default('')}}">
+          <input type="date" id="date_of_treatment" name="date_of_treatment" value="{{output_json['date_of_treatment'] if output_json else ''}}">
         </div>
         <div class="form-group">  
           <label for="hospital_name">Hospital Name:</label>
-          <input type="text" id="hospital_name" name="hospital_name" value="{{output_json['hospital_name'] | default('')}}" >
+          <input type="text" id="hospital_name" name="hospital_name" value="{{output_json['hospital_name'] if output_json else ''}}" >
         </div>
         <div class="form-group">
           <label for="hospital_address">Hospital Address:</label>
-          <input type="text" id="hospital_address" name="hospital_address" value="{{output_json['hospital_address'] | default('')}}" rows="3" />
+          <input type="text" id="hospital_address" name="hospital_address" value="{{output_json['hospital_address'] if output_json else ''}}" rows="3" />
         </div>
         <div class="form-group">
           <label for="diagnosis">Diagnosis/Condition:</label>
-          <input type= "text" id="diagnosis" name="diagnosis"  value="{{output_json['diagnosis'] | default('')}}"/>
+          <input type= "text" id="diagnosis" name="diagnosis"  value="{{output_json['diagnosis'] if output_json else ''}}"/>
         </div>
         <div class="form-group">
           <label for="treatment_description">Treatment Description:</label>
-          <input type="text" id="treatment_description" name="treatment_description"  value="{{output_json['treatment_description'] | default('')}}"/>
+          <input type="text" id="treatment_description" name="treatment_description"  value="{{output_json['treatment_description'] if output_json else ''}}"/>
         </div>
         <div class="form-group">
           <label for="doctor_name">Doctor's Name:</label>
-          <input type="text" id="doctor_name" name="doctor_name" value="{{output_json['doctor_name'] | default('')}}" >
+          <input type="text" id="doctor_name" name="doctor_name" value="{{output_json['doctor_name'] if output_json else ''}}" >
         </div>
         <div class="form-group">
           <label for="doctor_contact">Doctor's Contact Number:</label>
-          <input type="text" id="doctor_contact" name="doctor_contact" value="{{output_json['doctor_contact'] | default('')}}">
+          <input type="text" id="doctor_contact" name="doctor_contact" value="{{output_json['doctor_contact'] if output_json else ''}}">
         </div>
         <h3>Insurance Details</h3>
         <div class="form-group">
@@ -98,7 +98,7 @@
           <input type="file" id="supporting_documents" name="supporting_documents" multiple>
         </div>
         <div class="form-group">
-          <input type="submit" value="Submit" class="final-submit" name="final-submit" value="health-final-submit">
+          <input type="submit"  class="final-submit" name="final-submit" value="Submit Claim Form">
         </div>
       </form>
     </div>
