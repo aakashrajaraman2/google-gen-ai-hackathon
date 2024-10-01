@@ -22,6 +22,7 @@ The chatbot leverages the Gemini LLM powered by a Corrective-RAG (CRAG) methodol
 
 ## How to Run the Project
 Clone this repository to your local machine:
+
 ```git clone <repo_url>```
 
 ```cd <project_directory>```
@@ -40,7 +41,7 @@ Run the application locally:
 
 ```python app.py```
 
-For production, deploy the Flask application using Docker. A sample Dockerfile is provided in the root folder.
+For production, deploy the Flask application using Docker. A sample Dockerfile is provided in the flask folder.
 
 
 **Note:** For the purposes of this hackathon, both the documents and user profile have been hardcoded to allow the workflow to focus solely on the performance of the application and adherance to the hackathon problem statement. In production, a database for users, and long term storage for documents and vectors would also be integrated and interfaced with their respoective SDKs.
