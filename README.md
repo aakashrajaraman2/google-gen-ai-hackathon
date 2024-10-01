@@ -1,4 +1,4 @@
-#Polisense - Simply Secure
+# Polisense - Simply Secure
 Polisense is an AI-powered chatbot system designed to tackle two key challenges in the insurance industry:
 
 Improving financial literacy among policyholders and prospective users.
