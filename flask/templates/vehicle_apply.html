@@ -8,13 +8,14 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+<div class = "message">{{message if message else ""}}</div>
   <div class="bg"></div>
   <div class="container">
     <div class="form-container">
         <form class="bio-form" action="{{url_for('autofill_health_form')}}" method="POST">
           <div class="heading-container">
             <h2>Vehicle-Insurance Form</h2>
-            <button class="right-button" type="submit">Auto fill</button>
+            <button class="right-button" name="final-submit" type="submit" value="autofill">Auto fill</button>
           </div>
           <h3>Lease Plan Vehicle</h3>
           <div class="form-group">
@@ -197,10 +198,10 @@
           <h3>Description of Accident</h3>
           <div class="form-group">
             <label for="description-of-accident">Description:</label>
-            <input type="text" id="description-of-accident" name="description-of-accident" rows="3" >{{output_json['description-of-accident'] if output_json else ''}}</textarea>
+            <input type="text" id="description-of-accident" name="description-of-accident" rows="3" value="{{output_json['description-of-accident'] if output_json else ''}}" ></textarea>
           </div>
           <div class="form-group">
-            <input type="submit" value="Submit">
+            <input type="submit" class = "final-submit" name="final-submit" value="vehicle-final-submit">
           </div>
         </form>
       </div>
@@ -227,7 +228,6 @@
     </div>
   </div>
   <script>
-    var first_time = True;
     document.querySelector(".message-submit").addEventListener("click", function () {
       insertMessage();
     });
@@ -268,10 +268,7 @@
       // Append the figure to the message div
       messageDiv.appendChild(avatarFigure);
 
-      //here, make a fetch call to flask submit route
-      if(first_time==True){
-        
-      }
+      
      
       fetch('/health_question', {
         method: 'POST',

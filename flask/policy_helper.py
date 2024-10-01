@@ -26,7 +26,7 @@ class GraphState(TypedDict):
 
 
 
-embeddings_model = HuggingFaceEmbeddings(model_name="jinaai/jina-embeddings-v2-small-en", model_kwargs={'trust_remote_code': True})
+embeddings_model  = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="cred.json"
@@ -79,7 +79,7 @@ user_profile = {
     "vehicle_insurance_details": {
       "policy_number": "SBI5682100173",
       "policy_provider": "SBI Private Car Insurance",
-      "policy_path": "../docs/car insurance.pdf",
+      "policy_path": "docs/car insurance.pdf",
       "policy_start_date": "2020-01-01",
       "policy_end_date": "2025-01-01",
       "coverage_amount": 500000,
@@ -137,7 +137,7 @@ def lanceDBConnection(request_type, embed=embeddings_model):
     vectorstore = LanceDB.from_documents(
         documents=prepare_docs(request_type),
         embedding=embeddings_model,
-        connection=table,
+        connection=db,
     )
     retriever = vectorstore.as_retriever()
 

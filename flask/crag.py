@@ -24,9 +24,9 @@ class GraphState(TypedDict):
 
 
 
-
-embeddings_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-
+print("creating embeddings model")
+embeddings_model  = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+print("done embeddings model")
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="cred.json"
 #os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
@@ -42,9 +42,9 @@ system_instruction="You will be given various tasks in the following prompts. Re
 
 
 paths =[
-    "../docs/car insurance.pdf",
-    "../docs/home insurance.pdf",
-    "../docs/united india health insurance.pdf",
+    "docs/car insurance.pdf",
+    "docs/home insurance.pdf",
+    "docs/united india health insurance.pdf",
 ]
 
 def prepare_docs():
@@ -58,11 +58,7 @@ def prepare_docs():
     
 def lanceDBConnection(embed):
     db = lancedb.connect("/tmp/lancedb")
-    table = db.create_table(
-        "crag_demo",
-        data=[{"vector": embed.embed_query("Hello World"), "text": "Hello World"}],
-        mode="overwrite",
-    )
+  
     
     vectorstore = LanceDB.from_documents(
         documents=prepare_docs(),
@@ -72,9 +68,9 @@ def lanceDBConnection(embed):
     retriever = vectorstore.as_retriever()
 
     return retriever
-
+print("starting retriever")
 retriever = lanceDBConnection(embeddings_model)
-
+print("done retriever")
 def create_retrieval_prompt(state):
     question = state["keys"]["question"]
     prompt = PromptTemplate(
@@ -291,6 +287,7 @@ def generate(state):#node 3. also, end.
     Answer:
     ''',
     input_variables=["question", "context"],)
+    
 
     # LLM
 

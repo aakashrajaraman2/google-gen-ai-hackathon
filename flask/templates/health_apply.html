@@ -8,6 +8,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+  <div class = "message">{{message if message else ""}}</div>
   <div class="bg"></div>
   <div class="container">
     <div class="form-container">
@@ -97,7 +98,7 @@
           <input type="file" id="supporting_documents" name="supporting_documents" multiple>
         </div>
         <div class="form-group">
-          <input type="submit" value="Submit">
+          <input type="submit" value="Submit" class="final-submit" name="final-submit" value="health-final-submit">
         </div>
       </form>
     </div>

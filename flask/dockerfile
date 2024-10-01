@@ -1,9 +1,26 @@
-FROM python:3.11
+# Use the official Python image.
+FROM python:3.11-slim
 
+# Set environment variables to avoid buffering issues and ensure logs are written straight to the console
+ENV PYTHONUNBUFFERED=1
+
+# Set the working directory
 WORKDIR /flask
 
+# Copy requirements.txt first to take advantage of Docker caching if dependencies don't change often
+COPY requirements.txt .
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code to the container
 COPY . .
 
-RUN pip3 install -r requirements.txt
+# Expose the port that Gunicorn will run on
+EXPOSE 8080
 
-CMD ["gunicorn", "app:app", "--preload", "--workers=1", "--threads=4", "--bind=0.0.0.0:8085"]
+# Define environment variables for Google Cloud credentials if needed
+ENV GOOGLE_APPLICATION_CREDENTIALS cred.json
+
+# Run the app with Gunicorn, set to preload and handle requests concurrently
+CMD ["gunicorn", "app:app", "--bind=0.0.0.0:8080"]

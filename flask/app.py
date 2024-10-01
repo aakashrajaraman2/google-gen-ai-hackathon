@@ -60,7 +60,7 @@ health_user_profile = {
     "insurance_details": {
       "policy_number": "HSI123456789",
       "policy_provider": "SBI Health Insurance",
-      "policy_path": "../docs/united india health insurance.pdf",
+      "policy_path": "docs/united india health insurance.pdf",
       "policy_start_date": "2020-01-01",
       "policy_end_date": "2025-01-01",
       "coverage_amount": 500000,
@@ -172,7 +172,11 @@ def health_question():
 
 @app.route("/autofill_health_form", methods=["POST", "GET"])
 def autofill_health_form():
-    
+    if "final-submit" in request.form.get("final-submit"):
+      if "health" in request.form.get("final-submit"):
+        return render_template('health_apply.html', message='Your claim form has been submitted!')
+      else: 
+        return render_template('vehicle_apply.html', message='Your claim form has been submitted!')
     input_names = request.form.to_dict().keys()
     request_type = request.form["request_type"]
     prompt = '''Generate a simple json with the following information. If you don't know the information have an empty string as the value for the key. Ensure that all the keys are accounted for in the output json. Only return the json, no other text. 
@@ -186,11 +190,11 @@ def autofill_health_form():
     print(output_json)
     output_json = json.loads(output_json)
     
-    
+    session["ranjitsharma"]["chat"] = None 
     if request_type == "vehicle":
         return render_template('vehicle_apply.html', output_json=output_json)
       
-    session["ranjitsharma"]["chat"] = None 
+    
     return render_template('health_apply.html',output_json=output_json)
   
 
@@ -198,4 +202,4 @@ def autofill_health_form():
   
   
 if __name__ == "__main__":
-    app.run(host = "0.0.0.0",port=8085, debug=False, use_reloader=False)
+    app.run(host = "0.0.0.0",port=8080, debug=False, use_reloader=False)
