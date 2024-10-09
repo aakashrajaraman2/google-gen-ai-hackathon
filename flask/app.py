@@ -120,7 +120,7 @@ for message in default_chat_history:
 def index():
     return render_template('service.html')
 
-@app.route('/get_response', methods=['POST', 'GET'])
+@app.route('/get_response', methods=['POST', 'GET'])#general response
 def get_response():
     
     request_json = request.get_json()
@@ -145,7 +145,7 @@ def vehicle_apply():
     output_json = {}
     return render_template('vehicle_apply.html', output_json = output_json)
 
-@app.route("/health_question", methods=['POST', 'GET'])
+@app.route("/health_question", methods=['POST', 'GET'])#specific chatbot call
 def health_question():
     request_json = request.get_json()
     request_type = request_json["type"]
@@ -169,6 +169,9 @@ def health_question():
 
     return jsonify({"message":output.candidates[0].content.parts[0].text})
 
+@app.route("/claim_resolution", methods=['POST', 'GET'])
+def claim_resolution():
+    return render_template('claim_resolution.html')
 
 @app.route("/autofill_health_form", methods=["POST", "GET"])
 def autofill_health_form():

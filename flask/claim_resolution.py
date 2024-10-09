@@ -6,17 +6,13 @@ from langchain_huggingface import HuggingFaceEmbeddings
 import lancedb
 from typing import Dict, TypedDict
 from langchain.prompts import PromptTemplate
-from langchain.schema import Document
-from langchain_core.output_parsers import StrOutputParser
 from langchain_core.pydantic_v1 import  Field
 from langchain_community.vectorstores import LanceDB
 import vertexai
 from langchain_google_genai import ChatGoogleGenerativeAI
 from tavily import TavilyClient
-from langgraph.graph import END, StateGraph
-import warnings
-from vertexai.generative_models import GenerativeModel, ChatSession, Content, Part
-import vertexai.preview.generative_models as generative_models
+
+from vertexai.generative_models import GenerativeModel
 
 dotenv.load_dotenv()
 
@@ -38,7 +34,18 @@ vertexai.init(project="vision-forge-414908", location="us-central1")
 
 
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash-001",
-system_instruction="You will be given various tasks in the following prompts. Remember that you must be as elaborate and professional as possible. Understand the task carefully, then respond"
+    system_instruction=''' 
+    You are an insurance claim resolution agent. You will recieve user information, a compacted JSON of a rejected claim, and some relevant context as to how that claim should be filed, or the best practices to file that claim.
+                             Using this information, you need to generate an output consisting of:
+                             1) Why the claim was rejected. What portions were incomplete/missing/insufficient etc.
+                             2) What they should have done instead, and why this is important.
+                             3) How the claim can now be resolved? Should they file a new claim, should they contact the agency, etc.
+                             
+                             Be very elaborate, complete, and utterly professional. 
+                             
+                             Your output should be in a small HTML script. The only tags you are allowed to use are: <h2>, <p>, <ul>, <li>
+                             
+'''
 )
 
 
@@ -108,6 +115,62 @@ user_profile = {
 }
 
 
+example_claim = {
+  "claimId": "DHC20240509001",
+  "patientDetails": {
+    "name": "Ranjit Sharma",
+    "policyNumber": "HSI123456789",
+    "dateOfBirth": "1985-06-15",
+    "gender": "Male",
+    "maritalStatus": "Married",
+    "spouseName": "Anita Sharma",
+    "contactNumber": "+91-9876543210",
+    "email": "ranjit.sharma@example.com",
+    "address": {
+      "street": "15, MG Road",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "postalCode": "560001",
+      "country": "India"
+    }
+  },
+  "claimDetails": {
+    "diagnosisCode": "A90",
+    "diagnosisDescription": "Dengue fever [classical dengue]",
+    "dateOfDiagnosis": "2024-05-01",
+    "hospitalName": "Apollo Hospital, Bengaluru",
+    "admissionDate": "2024-05-02",
+    "dischargeDate": "2024-05-07",
+    "totalBillAmount": 250000.00,
+    "claimAmount": 225000.00,
+    "claimDate": "2024-05-09"
+  },
+  "claimStatus": {
+    "status": "REJECTED",
+    "rejectionDate": "2024-05-15",
+    "rejectionReasons": [
+      "Pre-existing condition not disclosed",
+      "Waiting period for vector-borne diseases not completed"
+    ],
+    "appealDeadline": "2024-06-14"
+  },
+  "insuranceCompany": {
+    "name": "SBI Health Insurance",
+    "contactNumber": "+91-1800-22-1111",
+    "email": "customer.care@sbigeneral.in",
+    "address": "Corporate Office, Fulcrum Building, 9th Floor, A & B Wing, Sahar Road, Andheri (East), Mumbai - 400099"
+  },
+  "policyDetails": {
+    "policyProvider": "SBI Health Insurance",
+    "policyPath": "docs/united india health insurance.pdf",
+    "policyStartDate": "2020-01-01",
+    "policyEndDate": "2025-01-01",
+    "coverageAmount": 500000,
+    "premiumAmount": 12000,
+    "premiumFrequency": "Yearly"
+  }
+}
+
 
 def prepare_docs(request_type):
     if request_type=="health":
@@ -142,7 +205,7 @@ def lanceDBConnection(request_type, embed=embeddings_model):
 
 #retriever = lanceDBConnection(embeddings_model)
 
-def grade_documents(retriever, state_dict):#node 2
+def generate_resolution(state_dict):#node 2
     """
     Determines whether the retrieved documents are relevant to the question.
 
@@ -153,50 +216,41 @@ def grade_documents(retriever, state_dict):#node 2
         state (dict): Updates documents key with relevant documents
     """
 
-    question = state_dict["query"]
+    question = "claim filing, filing procedure, deadlines, expenses, eligible, included, denial, reimbursement, authorization, coverage"
     type=state_dict["type"]
+    claim_json = state_dict["claim_json"]
+    
+    retriever = lanceDBConnection(state_dict["type"])
     op = retriever.invoke(question)
-    documents = op
+    documents = [o.page_content for o in op]
 
     # LLM
 
     # Prompt
     prompt = PromptTemplate(
-        template="""You are a grader assessing relevance of a policy document to a user question. \n
-        Here is the retrieved document: \n\n {context} \n\n
-        Here is the user question: {question} \n
-        If the document relates to the user question, grade it as relevant. \n
-        Ensure that the user's question's specific policy question matches the policy type (auto, pet, life, etc) in the documents.
-        Only give a binary score 'yes' or 'no' score to indicate whether the document is relevant to the question.
-        Only answer with the words 'yes' or 'no'. Do not provide any other text. \n\n
+        template="""
+               
+        You need to analyze the content of this claim:
+        {claim_json}
+        
+        Relevant context pulled from the policy guidebook:
+        {documents}
+        Answer in the 2nd person. Answer with "you" and "your"
+        Remember to generate your output in a short HTML script, The only tags you are allowed to use are: <h2>, <p>, <ul>, <li>.
         """,
-        input_variables=["context", "question"],
+        input_variables=["claim_json", "documents"],
     )
 
     # Chain
-    chain = prompt | llm 
+    chain = prompt | llm
+    response = chain.invoke({"claim_json": claim_json, "documents": documents })
 
     # Score
-    filtered_docs = []
-    for d in documents:
-        score = chain.invoke({"question": question, "context": d.page_content})
-        score = [score.content.replace("\n", "")]
-        print("THIS IS THE SCORE:", score)
-        grade2 = score[0]
-        if "yes" in grade2 or "Yes" in grade2:
-            print("*" * 5, " RATED DOCUMENT: RELEVANT", "*" * 5)
-            filtered_docs.append(d.page_content)
-        else:
-            print("*" * 5, " RATED DOCUMENT: NOT RELEVANT", "*" * 5)
-            continue
-        
-        #if not even half the docs are relevant
+    
  
     return {
-        
-            "documents": filtered_docs,
-            "question": question,
-        
+        "response": response.content
+            
     }
 
 
