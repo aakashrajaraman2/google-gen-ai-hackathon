@@ -136,7 +136,7 @@ example_claim = {
   },
   "claimDetails": {
     "diagnosisCode": "A90",
-    "diagnosisDescription": "Dengue fever [classical dengue]",
+    "diagnosisDescription": "Dengue fever classical dengue",
     "dateOfDiagnosis": "2024-05-01",
     "hospitalName": "Apollo Hospital, Bengaluru",
     "admissionDate": "2024-05-02",
