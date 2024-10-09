@@ -115,61 +115,6 @@ user_profile = {
 }
 
 
-example_claim = {
-  "claimId": "DHC20240509001",
-  "patientDetails": {
-    "name": "Ranjit Sharma",
-    "policyNumber": "HSI123456789",
-    "dateOfBirth": "1985-06-15",
-    "gender": "Male",
-    "maritalStatus": "Married",
-    "spouseName": "Anita Sharma",
-    "contactNumber": "+91-9876543210",
-    "email": "ranjit.sharma@example.com",
-    "address": {
-      "street": "15, MG Road",
-      "city": "Bengaluru",
-      "state": "Karnataka",
-      "postalCode": "560001",
-      "country": "India"
-    }
-  },
-  "claimDetails": {
-    "diagnosisCode": "A90",
-    "diagnosisDescription": "Dengue fever classical dengue",
-    "dateOfDiagnosis": "2024-05-01",
-    "hospitalName": "Apollo Hospital, Bengaluru",
-    "admissionDate": "2024-05-02",
-    "dischargeDate": "2024-05-07",
-    "totalBillAmount": 250000.00,
-    "claimAmount": 225000.00,
-    "claimDate": "2024-05-09"
-  },
-  "claimStatus": {
-    "status": "REJECTED",
-    "rejectionDate": "2024-05-15",
-    "rejectionReasons": [
-      "Pre-existing condition not disclosed",
-      "Waiting period for vector-borne diseases not completed"
-    ],
-    "appealDeadline": "2024-06-14"
-  },
-  "insuranceCompany": {
-    "name": "SBI Health Insurance",
-    "contactNumber": "+91-1800-22-1111",
-    "email": "customer.care@sbigeneral.in",
-    "address": "Corporate Office, Fulcrum Building, 9th Floor, A & B Wing, Sahar Road, Andheri (East), Mumbai - 400099"
-  },
-  "policyDetails": {
-    "policyProvider": "SBI Health Insurance",
-    "policyPath": "docs/united india health insurance.pdf",
-    "policyStartDate": "2020-01-01",
-    "policyEndDate": "2025-01-01",
-    "coverageAmount": 500000,
-    "premiumAmount": 12000,
-    "premiumFrequency": "Yearly"
-  }
-}
 
 
 def prepare_docs(request_type):
@@ -236,6 +181,13 @@ def generate_resolution(state_dict):#node 2
         Relevant context pulled from the policy guidebook:
         {documents}
         Answer in the 2nd person. Answer with "you" and "your"
+        
+        Using this information, you need to generate an output consisting of:
+        1) Why the claim was rejected. What portions were incomplete/missing/insufficient etc.
+        2) What they should have done instead, and why this is important.
+        3) How the claim can now be resolved? Should they file a new claim, should they contact the agency, etc.
+        
+        You must be very thorough and professional
         Remember to generate your output in a short HTML script, The only tags you are allowed to use are: <h2>, <p>, <ul>, <li>.
         """,
         input_variables=["claim_json", "documents"],

@@ -1,11 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Oswald";
     background-color: #c7f0f3;
     color: #333;
 }
@@ -25,26 +27,10 @@ header {
 
 h1 {
     font-size: 24px;
-    font-weight: 500;
+    font-weight: 2000;
 }
 
-.header-icons {
-    display: flex;
-    gap: 10px;
-}
 
-.icon-button {
-    background: none;
-    border: none;
-    padding: 8px;
-    cursor: pointer;
-    border-radius: 4px;
-    color: #5f6368;
-}
-
-.icon-button:hover {
-    background-color: #f0f0f0;
-}
 
 .documents-grid {
     display: grid;
@@ -61,9 +47,13 @@ h1 {
     transition: box-shadow 0.3s ease;
 }
 
-.document-card:hover {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.document-card h3 {
+    color: red;
+    padding-top: 0.2rem;
+    padding-left: 0.2rem;
 }
+
+
 
 .document-preview {
     aspect-ratio: 1;
@@ -103,34 +93,6 @@ h1 {
     color: #333;
 }
 
-.more-options {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    opacity: 0;
-    color: #5f6368;
-}
-
-.document-card:hover .more-options {
-    opacity: 1;
-}
-
-.document-details {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    color: #5f6368;
-}
-
-.user-avatar {
-    width: 24px;
-    height: 24px;
-    background-color: #e0e0e0;
-    border-radius: 50%;
-    margin-left: 8px;
-}
-
 .add-document-btn {
     width: 19%;
     padding: 10px;
@@ -142,6 +104,3 @@ h1 {
     font-size: 16px;
 }
 
-.add-document-btn:hover {
-    background-color: #1557b0;
-}

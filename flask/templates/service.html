@@ -67,7 +67,7 @@
                 <li>Financial Literacy Assistance</li>
                 <li>Interactive Policy Explanations</li>
                 <li>Autofilling Claim Forms</li>
-                <li>Personalized Financial Guidance</li>
+                <li>Claim Rejection Resolution</li>
             </ul>
         </div>
         <div class="column benefits">
@@ -86,6 +86,8 @@
         <h1 class="display-6 mb-5">
           We Provide professional Insurance Services
         </h1>
+        <a class="btn btn-light px-3-1" href="{{url_for('render_claim_resolution')}}" >View Past Claims & Resolve Rejections</a>
+
       </div>
       <div class="row g-4 justify-content-center">
         
@@ -161,7 +163,7 @@
       </div>
     </div>
     <div class="message-box">
-      <textarea type="text" class="message-input" placeholder="Type message..."></textarea>
+      <textarea type="text" class="message-input" placeholder="Type message..." id = "message-input"></textarea>
       <button type="submit" class="message-submit">Send</button>
     </div>
   </div>
@@ -185,6 +187,8 @@ document.getElementById("chatbot-button").addEventListener("click", function(e) 
 
 
     document.querySelector(".message-submit").addEventListener("click", function () {
+      var ta = document.getElementById("message-input");
+      ta.placeholder = "Working";
       insertMessage();
     });
 
@@ -238,6 +242,8 @@ document.getElementById("chatbot-button").addEventListener("click", function(e) 
           // Append the response from Flask to the message div
           //messageDiv.appendChild(document.createTextNode(data.message));
           messageDiv.innerHTML=data.message;
+          var ta = document.getElementById("message-input");
+          ta.placeholder = "Type message...";
         })
           // Append the message div to the messages content container
           document.querySelector(".messages-content").appendChild(messageDiv);

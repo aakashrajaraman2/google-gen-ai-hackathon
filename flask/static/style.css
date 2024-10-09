@@ -430,3 +430,8 @@ li:hover {
         padding-right: 10px;
     }
 }
+.btn.btn-light.px-3-1{
+    background-color: #0DD3F1;
+    color:#f0f4f8;
+    margin-bottom: 0.8rem;
+}

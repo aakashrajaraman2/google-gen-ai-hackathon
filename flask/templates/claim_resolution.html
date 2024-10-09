@@ -4,31 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document UI</title>
-    <link rel="stylesheet" href="../static/claim_resolution.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='claim_resolution.css')}}">
     <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Submitted claims</h1>
+            <h1>Submitted Claims</h1>
         </header>
         
         <div class="documents-grid">
             <div class="document-card">
+                <h3>Rejected</h3>
+    
                 <div class="document-preview">
-                    <div class="document-icon">SBI Health Insurance form - Claim ID</div>
+                    
+                    <div class="document-icon">1</div>
                 </div>
                 <div class="document-info">
                     <div class="document-title-row">
-                        <h2>Your claim has been rejected</h2>
+                        <h2>SBI Health Insurance - #DHC20240509001</h2>
+                        <input class="hidden_value" id="hidden_value" value= "health" type="hidden" name = "hidden_value">
                         
                     </div>
                 </div>
             </div>
         </div>
         
-        <button class="add-document-btn">Understand why!</button>
+        <button class="add-document-btn" name="add-document-btn" id="add-document-btn">Understand Why</button>
+
+        <div class="output"></div>
     </div>
 </body>
+<script>
+document.querySelector(".add-document-btn").addEventListener("click", function () {
+    var btn = document.getElementById("add-document-btn");
+    
+    // Change the button text to "working"
+    btn.textContent = "Working...";
+    var msg = document.querySelector(".hidden_value").value.trim();
+    console.log("CLICKED");
+    insertMessage(msg);
+    
+    
+    // Change the button text to "working"
+    
+    });
+function insertMessage(msg) {
+      var messageDiv = document.createElement("div");
+
+      messageDiv.className = "message new";
+
+      
+
+      //here, make a fetch call to flask submit route
+      fetch('/resolve_claim', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ type: msg })
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Append the response from Flask to the message div
+          messageDiv.innerHTML=data.message;
+          document.querySelector(".output").innerHTML = "";
+          document.querySelector(".output").appendChild(messageDiv);
+          document.getElementById("add-document-btn").textContent = "Understand Why";
+        })
+
+   
+          
+
+        }
+
+</script>
 </html>

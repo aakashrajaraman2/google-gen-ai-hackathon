@@ -118,7 +118,7 @@
         </div>
       </div>
       <div class="message-box">
-        <textarea type="text" class="message-input" placeholder="Type message..."></textarea>
+        <textarea type="text" class="message-input" placeholder="Type message..." id = "message-input"></textarea>
         <button type="submit" class="message-submit">Send</button>
     </div>
       </div>
@@ -128,6 +128,8 @@
     
 
     document.querySelector(".message-submit").addEventListener("click", function () {
+      var ta = document.getElementById("message-input");
+      ta.placeholder = "working";
       insertMessage();
     });
 
@@ -144,7 +146,7 @@
       document.querySelector(".messages-content").appendChild(messageDiv);
       messageDiv.classList.add("new");
 
-      document.querySelector(".message-input").value = "";
+      
       fakeMessage(msg);
     }
 
@@ -181,6 +183,8 @@
           // Append the response from Flask to the message div
           //messageDiv.appendChild(document.createTextNode(data.message));
           messageDiv.innerHTML=data.message;
+          var ta = document.getElementById("message-input");
+          ta.placeholder = "working";
         })
           // Append the message div to the messages content container
           document.querySelector(".messages-content").appendChild(messageDiv);

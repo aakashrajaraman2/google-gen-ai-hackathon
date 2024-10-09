@@ -9,6 +9,7 @@ import vertexai
 from crag import generate_langgraph
 from policy_helper import grade_documents
 import policy_helper
+import claim_resolution
 print("Starting")
 app = Flask(__name__)
 crag_app = generate_langgraph()
@@ -103,6 +104,64 @@ default_chat_history = [
     
 ]
 
+example_claim = {
+  "claimId": "DHC20240509001",
+  "patientDetails": {
+    "name": "Ranjit Sharma",
+    "policyNumber": "HSI123456789",
+    "dateOfBirth": "1985-06-15",
+    "gender": "Male",
+    "maritalStatus": "Married",
+    "spouseName": "Anita Sharma",
+    "contactNumber": "+91-9876543210",
+    "email": "ranjit.sharma@example.com",
+    "address": {
+      "street": "15, MG Road",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "postalCode": "560001",
+      "country": "India"
+    }
+  },
+  "claimDetails": {
+    "diagnosisCode": "A90",
+    "diagnosisDescription": "Dengue fever classical dengue",
+    "dateOfDiagnosis": "2024-05-01",
+    "hospitalName": "Apollo Hospital, Bengaluru",
+    "admissionDate": "2024-05-02",
+    "dischargeDate": "2024-05-07",
+    "totalBillAmount": 250000.00,
+    "claimAmount": 225000.00,
+    "claimDate": "2024-05-09"
+  },
+  "claimStatus": {
+    "status": "REJECTED",
+    "rejectionDate": "2024-05-15",
+    "rejectionReasons": [
+      "Pre-existing condition not disclosed",
+      "Waiting period for vector-borne diseases not completed"
+    ],
+    "appealDeadline": "2024-06-14"
+  },
+  "insuranceCompany": {
+    "name": "SBI Health Insurance",
+    "contactNumber": "+91-1800-22-1111",
+    "email": "customer.care@sbigeneral.in",
+    "address": "Corporate Office, Fulcrum Building, 9th Floor, A & B Wing, Sahar Road, Andheri (East), Mumbai - 400099"
+  },
+  "policyDetails": {
+    "policyProvider": "SBI Health Insurance",
+    "policyPath": "docs/united india health insurance.pdf",
+    "policyStartDate": "2020-01-01",
+    "policyEndDate": "2025-01-01",
+    "coverageAmount": 500000,
+    "premiumAmount": 12000,
+    "premiumFrequency": "Yearly"
+  }
+}
+
+
+
 history = []
 
 for message in default_chat_history:
@@ -169,9 +228,19 @@ def health_question():
 
     return jsonify({"message":output.candidates[0].content.parts[0].text})
 
-@app.route("/claim_resolution", methods=['POST', 'GET'])
-def claim_resolution():
+@app.route("/render_claim_resolution", methods=['POST', 'GET'])
+def render_claim_resolution():
     return render_template('claim_resolution.html')
+  
+@app.route("/resolve_claim", methods=['POST', 'GET'])
+def resolve_claim():
+    request_type= request.get_json()["type"]
+    state_dict = {
+      "type": request_type,
+      "claim_json": example_claim
+    }
+    resolve_response=claim_resolution.generate_resolution(state_dict)["response"]
+    return jsonify({"message":resolve_response})
 
 @app.route("/autofill_health_form", methods=["POST", "GET"])
 def autofill_health_form():
@@ -205,9 +274,6 @@ def autofill_health_form():
       
     
     return render_template('health_apply.html',output_json=output_json)
-  
-
-
   
   
 if __name__ == "__main__":
