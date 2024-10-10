@@ -183,9 +183,10 @@ def generate_resolution(state_dict):#node 2
         Answer in the 2nd person. Answer with "you" and "your"
         
         Using this information, you need to generate an output consisting of:
-        1) Why the claim was rejected. What portions were incomplete/missing/insufficient etc.
-        2) What they should have done instead, and why this is important.
-        3) How the claim can now be resolved? Should they file a new claim, should they contact the agency, etc.
+        1) Summary of the claim
+        2) Why the claim was rejected. What portions were incomplete/missing/insufficient etc.
+        3) What they should have done instead, and why this is important.
+        4) How the claim can now be resolved? Should they file a new claim, should they contact the agency, etc.
         
         You must be very thorough and professional
         Remember to generate your output in a short HTML script, The only tags you are allowed to use are: <h2>, <p>, <ul>, <li>.

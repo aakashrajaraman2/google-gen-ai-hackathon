@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document UI</title>
+    <title>Claim Rejections</title>
     <link rel="stylesheet" href="{{url_for('static', filename='claim_resolution.css')}}">
-    <!-- Font Awesome for icons -->
 </head>
 <body>
     <div class="container">
@@ -13,29 +12,28 @@
             <h1>Submitted Claims</h1>
         </header>
         
-        <div class="documents-grid">
-            <div class="document-card">
-                <h3>Rejected</h3>
-    
-                <div class="document-preview">
-                    
-                    <div class="document-icon">1</div>
-                </div>
-                <div class="document-info">
-                    <div class="document-title-row">
-                        <h2>SBI Health Insurance - #DHC20240509001</h2>
-                        <input class="hidden_value" id="hidden_value" value= "health" type="hidden" name = "hidden_value">
-                        
+        <div class="content-wrapper">
+            <div class="document-section">
+                <div class="document-card">
+                    <div class="document-preview">
+                        <div class="document-icon">Cl 1</div>
+                    </div>
+                    <div class="document-info">
+                        <h2>SBI Health Insurance: DHC20240509001</h2>
+                        <h3>Rejected</h3>
                     </div>
                 </div>
+                <input class = "hidden_value" type="hidden" value="health">
+                <button class="add-document-btn" id="add-document-btn">Understand why!</button>
+            </div>
+
+            <div class="output" style="display: none;">
+                
             </div>
         </div>
-        
-        <button class="add-document-btn" name="add-document-btn" id="add-document-btn">Understand Why</button>
-
-        <div class="output"></div>
     </div>
 </body>
+
 <script>
 document.querySelector(".add-document-btn").addEventListener("click", function () {
     var btn = document.getElementById("add-document-btn");
@@ -69,6 +67,7 @@ function insertMessage(msg) {
         .then(data => {
           // Append the response from Flask to the message div
           messageDiv.innerHTML=data.message;
+          document.querySelector(".output").style.display = "block";
           document.querySelector(".output").innerHTML = "";
           document.querySelector(".output").appendChild(messageDiv);
           document.getElementById("add-document-btn").textContent = "Understand Why";
