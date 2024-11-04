@@ -10,6 +10,7 @@ from crag import generate_langgraph
 from policy_helper import grade_documents
 import policy_helper
 import claim_resolution
+import comparison
 print("Starting")
 app = Flask(__name__)
 crag_app = generate_langgraph()
@@ -26,7 +27,8 @@ model = GenerativeModel(model_name="gemini-1.5-flash-001",
                              Until the user asks for the json, don't provide it. Ask as many important questions required to fill out a insurance claim form.''',
                             
      )
-
+docs_path = "german_docs"
+summaries_path = "contract_summaries"
 load_dotenv()
 session={
     "ranjitsharma":{
@@ -193,6 +195,40 @@ def get_response():
     }
     return jsonify(output_json)
 
+@app.route('/compare', methods=['POST', 'GET'])
+def compare():
+    
+    docs = os.listdir(summaries_path)
+    
+    output_json={
+        "message": ""
+    }
+    return render_template('comparison.html', documents = docs)
+  
+@app.route('/compare_docs', methods=['POST', 'GET'])
+def compare_docs():
+    docs = os.listdir(summaries_path)
+    selected_docs = request.form.getlist('documents')
+    jsons = comparison.load_jsons([summaries_path+"/"+doc for doc in selected_docs])
+    comparison_report = comparison.get_gemini_comparisons(jsons)
+   
+    return render_template('comparison.html', documents = docs, comparison_report=comparison_report)
+
+@app.route('/upload_docs', methods=['POST', 'GET'])
+def upload_docs():
+    uploaded_files = request.files.getlist('new_documents')
+    saved_files = []
+    for file in uploaded_files:
+        if file.filename:  # Ensure file was uploaded
+            file_path = os.path.join(docs_path, file.filename)
+            file.save(file_path)
+            saved_files.append(file_path)
+   
+    comparison.get_summary_jsons(saved_files)
+    docs = os.listdir(summaries_path)
+
+    return render_template('comparison.html', documents = docs,)
+
 
 @app.route('/health_apply', methods=['POST', 'GET'])
 def health_apply():
@@ -242,13 +278,12 @@ def resolve_claim():
     resolve_response=claim_resolution.generate_resolution(state_dict)["response"]
     return jsonify({"message":resolve_response})
 
+
 @app.route("/autofill_health_form", methods=["POST", "GET"])
 def autofill_health_form():
   
-    
     print(request.form.to_dict())
     
-      
     if "Submit Claim Form"== request.form.to_dict()["final-submit"]:
       print("HEREEEEE")
       return render_template('health_apply.html', message='Your claim form has been submitted! You can submit a new form.')
@@ -275,6 +310,6 @@ def autofill_health_form():
     
     return render_template('health_apply.html',output_json=output_json)
   
-  
+
 if __name__ == "__main__":
-    app.run(host = "0.0.0.0",port=8080, debug=False, use_reloader=False)
+    app.run(host = "0.0.0.0",port=8080, debug=True, use_reloader=True)

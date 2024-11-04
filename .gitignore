@@ -4,3 +4,5 @@ cred2.json
 flask/gen-ai-env
 flask/.env
 flask/docs/
+flask/infineon_key.json
+flask/__pycache__

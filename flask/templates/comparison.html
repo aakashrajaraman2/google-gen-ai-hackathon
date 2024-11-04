@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Documents</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .document-list, .upload-section {
+            margin-bottom: 20px;
+        }
+        .document-list label {
+            display: block;
+            margin: 5px 0;
+        }
+        #submitBtn {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #submitBtn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>Select Documents</h1>
+    <form action="{{url_for('compare_docs')}}" method="post">
+        <div class="document-list">
+            {% for doc in documents %}
+                <label><input type="checkbox" name="documents" value="{{ doc }}"> {{ doc.split(".")[0] }}</label>
+            {% endfor %}
+
+            
+        </div>
+        
+
+        <button id="submitBtn" type="submit">Submit</button>
+    </form>
+
+    <form action="{{url_for('upload_docs')}}" method="post" enctype="multipart/form-data" class="form-section">
+        <h2>Upload New Documents:</h2>
+        <input type="file" name="new_documents" multiple>
+        <p>You can upload multiple files by selecting multiple documents at once.</p>
+        <button id="submitBtn"type="submit" name="upload_submit">Upload Documents</button>
+    </form>
+
+    {% if comparison_report %}
+        <p>{{comparison_report}}</p>
+    {% endif %}
+</body>
+</html>
