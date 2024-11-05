@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, url_for, flash, Flask, session
+from flask import render_template, redirect, request, url_for, flash, Flask, session, send_from_directory
 from dotenv import load_dotenv
 import os
 import json
@@ -209,10 +209,13 @@ def compare():
 def compare_docs():
     docs = os.listdir(summaries_path)
     selected_docs = request.form.getlist('documents')
+    docs_names = [i.split(".")[0] for i in selected_docs]
     jsons = comparison.load_jsons([summaries_path+"/"+doc for doc in selected_docs])
     comparison_report = comparison.get_gemini_comparisons(jsons)
-   
-    return render_template('comparison.html', documents = docs, comparison_report=comparison_report)
+    final_doc_name = "comparisons/"+'+'.join(docs_names)+".txt"
+    with open(final_doc_name, 'w', encoding='utf-8') as f:
+            f.write(comparison_report)
+    return render_template('comparison.html', documents = docs, comparison_report=comparison_report, final_doc_name=final_doc_name)
 
 @app.route('/upload_docs', methods=['POST', 'GET'])
 def upload_docs():
@@ -229,11 +232,18 @@ def upload_docs():
 
     return render_template('comparison.html', documents = docs,)
 
+@app.route("/download", methods=['POST', 'GET'])
+def download():
+    file_name = request.form.get("final_doc_name")
+    print(file_name.split("/")[-1])
+    return send_from_directory("comparisons",file_name.split("/")[-1], as_attachment=True)
+
 
 @app.route('/health_apply', methods=['POST', 'GET'])
 def health_apply():
     output_json = {}
     return render_template('health_apply.html', output_json = output_json)
+  
   
 @app.route('/vehicle_apply', methods=['POST', 'GET'])
 def vehicle_apply():

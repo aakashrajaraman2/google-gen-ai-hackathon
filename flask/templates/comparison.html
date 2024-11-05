@@ -44,7 +44,7 @@
         </div>
         
 
-        <button id="submitBtn" type="submit">Submit</button>
+        <button id="submitBtn" type="submit">Compare</button>
     </form>
 
     <form action="{{url_for('upload_docs')}}" method="post" enctype="multipart/form-data" class="form-section">
@@ -53,9 +53,14 @@
         <p>You can upload multiple files by selecting multiple documents at once.</p>
         <button id="submitBtn"type="submit" name="upload_submit">Upload Documents</button>
     </form>
-
+    
     {% if comparison_report %}
         <p>{{comparison_report}}</p>
+        <form action = "{{url_for('download')}}"method = "post" >
+        <input type="hidden" value = "{{ final_doc_name }}" name = "final_doc_name" class = "final_doc_name">
+        <button id="submitBtn"type="submit" name="upload_submit">Download</button>
+        </form>
     {% endif %}
+
 </body>
 </html>

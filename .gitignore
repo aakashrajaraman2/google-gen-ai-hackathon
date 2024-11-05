@@ -6,3 +6,6 @@ flask/.env
 flask/docs/
 flask/infineon_key.json
 flask/__pycache__
+flask/german_docs
+flask/comparisons
+flask/contract_summaries
