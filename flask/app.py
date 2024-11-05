@@ -14,6 +14,8 @@ import comparison
 print("Starting")
 app = Flask(__name__)
 crag_app = generate_langgraph()
+app.jinja_env.globals.update(len=len)
+
 print("DONE WITH CRAG APP")
 vertexai.init(project="vision-forge-414908", location="us-central1")
 model = GenerativeModel(model_name="gemini-1.5-flash-001",
@@ -203,19 +205,21 @@ def compare():
     output_json={
         "message": ""
     }
-    return render_template('comparison.html', documents = docs)
+    return render_template('comparison_ui.html', documents = docs, filters = comparison.get_keys())
   
 @app.route('/compare_docs', methods=['POST', 'GET'])
 def compare_docs():
     docs = os.listdir(summaries_path)
     selected_docs = request.form.getlist('documents')
+    filters = request.form.getlist("filters")
     docs_names = [i.split(".")[0] for i in selected_docs]
-    jsons = comparison.load_jsons([summaries_path+"/"+doc for doc in selected_docs])
+    jsons = comparison.load_jsons([summaries_path+"/"+doc for doc in selected_docs], filters)
+    table_values, titles = comparison.get_comparison_table(jsons, filters)
     comparison_report = comparison.get_gemini_comparisons(jsons)
     final_doc_name = "comparisons/"+'+'.join(docs_names)+".txt"
     with open(final_doc_name, 'w', encoding='utf-8') as f:
             f.write(comparison_report)
-    return render_template('comparison.html', documents = docs, comparison_report=comparison_report, final_doc_name=final_doc_name)
+    return render_template('comparison_ui.html', documents = docs, table_values=table_values, titles = titles, final_doc_name=final_doc_name, filters = comparison.get_keys())
 
 @app.route('/upload_docs', methods=['POST', 'GET'])
 def upload_docs():
@@ -230,7 +234,9 @@ def upload_docs():
     comparison.get_summary_jsons(saved_files)
     docs = os.listdir(summaries_path)
 
-    return render_template('comparison.html', documents = docs,)
+    return render_template('comparison_ui.html', documents = docs,)
+
+
 
 @app.route("/download", methods=['POST', 'GET'])
 def download():

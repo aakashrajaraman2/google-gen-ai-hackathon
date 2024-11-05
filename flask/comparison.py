@@ -80,7 +80,8 @@ def load_doc(path):
     for i in pages:
         content= content+i.page_content
     return content
-
+def get_keys():
+    return contract_keys
 
 def get_summary_jsons(docs):
     print("generating summaries")
@@ -105,16 +106,39 @@ def get_gemini_comparisons(jsons):
     for i in range(len(jsons)):
         jsons_text += str(i)+") "+ str(jsons[i]) + "\n\n"
     response=model.generate_content([
-        f"You are a document comparison assistant, and your job is to compare the content of documents and generate a detailed comparison report in paragraph form. You will be given several jsons that are summaries of the insurance policies. You need to generate a highly detailed comparison report that covers all the differences between the  policies. Here are the policies: {jsons_text}. Your output needs to be text parseable, so ensure it is human readable"
+        f'''You are a document comparison assistant, and your job is to compare the content of documents and generate a detailed comparison report in paragraph form. You will be given several jsons that are summaries of the insurance policies. You need to generate a highly detailed comparison report that covers all the differences between the  policies. Here are the policies: {jsons_text}. Your output needs to be text parseable, so ensure it is human readable.'''
     ])
     return response.candidates[0].content.parts[0].text
 
-def load_jsons(paths):
+def get_comparison_table(jsons, keys):
+    document_titles = [data.get("Contract_Title", f"Document {i+1}") for i, data in enumerate(jsons)]
+    
+    # Prepare comparison data for each key
+    comparison_data = [
+        {
+            "key": key,
+            "values": [data.get(key, "N/A") for data in jsons]
+        }
+        for key in sorted(keys)  # Sort keys to maintain consistent order
+    ]
+    
+    return comparison_data, document_titles
+
+def load_jsons(paths, filters = []):
     jsons = []
     for path in paths:
         try:
             with open(path, 'r') as f:
-                jsons.append(json.load(f))
+                new_json = json.load(f)
+                final_json = {}
+                if len(filters) > 0:
+                    #filter out the json to only have the keys in the filters
+                    for filter in filters:
+                        if filter not in new_json:
+                            final_json[filter] = "Not Given"
+                        else:
+                            final_json[filter] = new_json[filter]
+                jsons.append(final_json)
         except:
             pass
     return jsons
