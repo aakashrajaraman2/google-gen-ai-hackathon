@@ -63,7 +63,7 @@ def get_gemini_summary(question):
         [f'''You are a document summarizer who reads the content of documents, 
                         and responds with a json object containing these exact keys: {keys_string}.
                         You must respond only in english. 
-                        If that that information isn't available in the text, write 'Not Given' as the value.
+                        If that that information isn't available in the text, write 'Information not available in the contract' as the value.
                         If there are additional keys that need to be added that represent crucial information from the document, 
                         add it to the json. Ensure that the key starts with the word 'extra.' 
                         Ensure that the values of the keys are detailed and extremely thorough: 

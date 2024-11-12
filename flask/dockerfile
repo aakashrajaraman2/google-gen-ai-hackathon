@@ -9,6 +9,7 @@ WORKDIR /flask
 
 # Copy requirements.txt first to take advantage of Docker caching if dependencies don't change often
 COPY requirements.txt .
+RUN pip install -U pip
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
