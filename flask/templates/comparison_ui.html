@@ -370,11 +370,18 @@
                 <div class="dropdown">
                     <a href="#" id = "chooseFilters">Choose Comparison Factors</a>
                     <div id="filterDropdown" class="dropdown-content">
+                        
                         {% if filters %}
                             {% for x in filters %}
+                            {% if x == "Contract_Title" %}
+                            <input type="hidden" name="filters" value="{{ x }}" checked>
+                            {% else %}
                                 <label>
                                     <input type="checkbox" name="filters" value="{{ x }}" > {{ x.replace("_", " ") }}
                                 </label>
+
+                                {% endif %}
+
                             {% endfor %}
                         {% endif %}
                     </div>
