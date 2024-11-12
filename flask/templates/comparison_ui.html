@@ -274,29 +274,8 @@
             }
         }
 
-        /* Loading Animation */
-        .loading {
-            display: none;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-secondary);
-        }
-
-        .loading.active {
-            display: inline-flex;
-        }
-
         .spinner {
             animation: spin 1s linear infinite;
-        }
-        .filter-list {
-            display: flex;
-            gap: 15px; /* Space between each filter */
-            flex-wrap: wrap; /* Wrap filters if they exceed the container width */
-        }
-        .filter-list label {
-            margin: 0;
-            font-size: .9rem;
         }
         table {
             width: 100%;
@@ -329,57 +308,42 @@
                 transform: rotate(360deg);
             }
         }
+        .dropdown {
+            margin: 20px;
+        }
+
+      
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            max-height: 25%;
+            overflow-y: scroll;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 5;
+            margin-left: 12%;
+            margin-top: -7.4%;
+        }
+        .dropdown-content label{
+            
+            margin-left: 7.5%;
+        }
+
+
     </style>
+   
 </head>
 
 <body>
     <div class="container">
         <header class="header">
-            <h1>Document Comparison</h1>
+            <h1>Comparison of Contracts</h1>
             
         </header>
 
-        <form action="{{url_for('compare_docs')}}" method="post">
-            <section class="section">
-                <h3>Filter Options:</h3>
-                <div class="filter-list">
-                    {%if filters%}
-                    {% for x in filters %}
-                    <label><input type="checkbox" name="filters" value="{{x}}" checked> {{x}}</label>
-                    {% endfor %}
-                    {% endif %}
-                </div>
-<br>
-<br>
 
-                <h2 class="section-title">
-                    <i class="fas fa-file-alt"></i>
-                    Available Documents
-                </h2>
-                <div class="document-grid">
-                    {% for doc in documents %}
-                    <div class="document-item">
-                        <label>
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="documents" value="{{ doc }}">
-                                <span class="checkmark"></span>
-                            </div>
-                            <span class="document-name">{{ doc.split(".")[0] }}</span>
-                            <i class="fas fa-file-pdf text-primary"></i>
-                        </label>
-                    </div>
-                    {% endfor %}
-                </div>
-                <button id="compareBtn" class="btn btn-primary" type="submit">
-                    <i class="fas fa-exchange-alt"></i>
-                    Compare Documents
-                    <span class="loading">
-                        <i class="fas fa-circle-notch spinner"></i>
-                        Processing...
-                    </span>
-                </button>
-            </section>
-        </form>
+
 
         <form action="{{url_for('upload_docs')}}" method="post" enctype="multipart/form-data">
             <section class="section">
@@ -400,23 +364,66 @@
                 </button>
             </section>
         </form>
+        <form action="{{url_for('compare_docs')}}" method="post">
+            <section class="section">
+                <h3>Filter Options:</h3>
+                <div class="dropdown">
+                    <a href="#" id = "chooseFilters">Choose Comparison Factors</a>
+                    <div id="filterDropdown" class="dropdown-content">
+                        {% if filters %}
+                            {% for x in filters %}
+                                <label>
+                                    <input type="checkbox" name="filters" value="{{ x }}" > {{ x.replace("_", " ") }}
+                                </label>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+<br>
+<br>
+
+                <h2 class="section-title">
+                    <i class="fas fa-file-alt"></i>
+                    Available Offers to Compare
+                </h2>
+                <div class="document-grid">
+                    {% for doc in documents %}
+                    <div class="document-item">
+                        <label>
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="documents" value="{{ doc }}">
+                                <span class="checkmark"></span>
+                            </div>
+                            <span class="document-name">{{ doc.split(".")[0] }}</span>
+                            <i class="fas fa-file-pdf text-primary"></i>
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button id="compareBtn" class="btn btn-primary" type="submit">
+                    <i class="fas fa-exchange-alt"></i>
+                    Compare Offers
+                    
+                </button>
+            </section>
+        </form>
 
 {%if table_values%}
-<h2>Comparison of JSON Files</h2>
+<h2>Comparison of Files</h2>
 
 <table>
     <thead>
         <tr>
-            <th>Key</th>
+            <th>Comparison Factor</th>
             {% for title in titles %}
-                <th>{{ title }}</th>
+                <th>{{ title.replace("_", " ") }}</th>
             {% endfor %}
         </tr>
     </thead>
     <tbody>
         {% for item in table_values %}
         <tr>
-            <td>{{ item.key }}</td>
+            <td>{{ item.key.replace("_", " ") }}</td>
             {% for value in item["values"] %}
                 <td>{{ value }}</td>
             {% endfor %}
@@ -457,6 +464,24 @@
     -->
     
     </div>
+    <script> 
+        const dropdownContent = document.getElementById("filterDropdown");
+       document.getElementById("chooseFilters").addEventListener("click", function(e) {
+            e.preventDefault();
+            console.log("hello");
+            if (dropdownContent.style.display === "none") {
+        //dropdownContent.style.display = "block"; // Show the div
+        dropdownContent.style.display= "flex";
+        dropdownContent.style.flexDirection = "column";
+        dropdownContent.style.alignItems ="flex-start";
+    } else {
+        dropdownContent.style.display = "none";  // Hide the div
+    }
+        }
+       );
+    
+          
+        </script>
 
  
 </body>
