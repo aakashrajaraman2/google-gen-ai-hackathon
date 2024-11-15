@@ -135,7 +135,7 @@ def load_jsons(paths, filters = []):
                     #filter out the json to only have the keys in the filters
                     for filter in filters:
                         if filter not in new_json:
-                            final_json[filter] = "Not Given"
+                            final_json[filter] = "Information not available in the contract"
                         else:
                             final_json[filter] = new_json[filter]
                 jsons.append(final_json)

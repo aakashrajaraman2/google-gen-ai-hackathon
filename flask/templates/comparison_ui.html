@@ -314,7 +314,9 @@
 
       
         .dropdown-content {
-            display: none;
+            display: flex;
+            flex-direction : column;
+            align-items :flex-start;
             position: absolute;
             max-height: 25%;
             overflow-y: scroll;
@@ -322,7 +324,7 @@
             border: 1px solid #ddd;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 5;
-            margin-left: 12%;
+            margin-left: 18%;
             margin-top: -7.4%;
         }
         .dropdown-content label{
@@ -366,9 +368,9 @@
         </form>
         <form action="{{url_for('compare_docs')}}" method="post">
             <section class="section">
-                <h3>Filter Options:</h3>
+                <h3>Comparison Factors:</h3>
                 <div class="dropdown">
-                    <a href="#" id = "chooseFilters">Choose Comparison Factors</a>
+                    <a href="#" id = "chooseFilters">Choose Factors</a>
                     <div id="filterDropdown" class="dropdown-content">
                         
                         {% if filters %}
@@ -391,7 +393,7 @@
 
                 <h2 class="section-title">
                     <i class="fas fa-file-alt"></i>
-                    Available Offers to Compare
+                    Offers to Compare
                 </h2>
                 <div class="document-grid">
                     {% for doc in documents %}
@@ -401,7 +403,7 @@
                                 <input type="checkbox" name="documents" value="{{ doc }}">
                                 <span class="checkmark"></span>
                             </div>
-                            <span class="document-name">{{ doc.split(".")[0] }}</span>
+                            <span class="document-name">{{ doc.split(".")[0].replace("_", " ") }}</span>
                             <i class="fas fa-file-pdf text-primary"></i>
                         </label>
                     </div>
@@ -476,7 +478,7 @@
        document.getElementById("chooseFilters").addEventListener("click", function(e) {
             e.preventDefault();
             console.log("hello");
-            if (dropdownContent.style.display === "none") {
+        if (dropdownContent.style.display === "none") {
         //dropdownContent.style.display = "block"; // Show the div
         dropdownContent.style.display= "flex";
         dropdownContent.style.flexDirection = "column";

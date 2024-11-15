@@ -234,7 +234,7 @@ def upload_docs():
     comparison.get_summary_jsons(saved_files)
     docs = os.listdir(summaries_path)
 
-    return render_template('comparison_ui.html', documents = docs,)
+    return render_template('comparison_ui.html', documents = docs, filters = comparison.get_keys())
 
 
 
